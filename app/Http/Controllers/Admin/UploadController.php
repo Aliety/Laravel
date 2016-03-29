@@ -12,6 +12,7 @@ use Auth;
 use App\Topic;
 use App\Thesis;
 use Illuminate\Support\Facades\Storage;
+use App\User;
 
 class UploadController extends Controller
 {
@@ -33,34 +34,54 @@ class UploadController extends Controller
 
     public function showFile(Request $request)
     {
+        $file = [];
         $user = Auth::user();
         foreach ($user->topics as $topic) {
             if ($topic->pivot->active) {
                 $topicName = Topic::find($topic->id)->name;
+                $teacherId = Topic::find($topic->id)->teacher_id;
             }
         }
 
-        $file['topic'] = $topicName ?: '未知';
+        if (empty($topicName)) {
+            return view('auth.upload')->with('file', $file);
+        }
 
         if (! $user->thesis) {
             $folder = $user->grade .'/'.$user->college.'/'.'毕业论文';
-            $thesis = new Thesis(['save_path' => $folder]);
+            $thesis = new Thesis(['save_folder' => $folder, 'teacher_id' => $teacherId]);
             $user->thesis()->save($thesis);
         }
 
-        $folder = isset($folder) ? $folder : $user->thesis->save_path;
-        $filename = isset($user->thesis->filename) ? $user->thesis->filename : 'null';
-        $path = $folder.'/'.$filename;
-        $result = $this->disk->exists($path);
-
-        if ($result) {
-            $name = $user->thesis->original_name;
+        $folder = isset($folder) ? $folder : $user->thesis->save_folder;
+        if (isset($user->thesis->save_name)) {
+            $filename = $user->thesis->save_name;
+            $path = $folder.'/'.$filename;
+            $result = $this->disk->exists($path);
+            if ($result) {
+                $name = $user->thesis->original_name;
+            }
         }
 
+        $file['topic'] = isset($topicName) ? $topicName : '未确认选课';
         $file['name'] = isset($name) ? $name : '未上传';
-        $file['path'] = $path;
+        $file['path'] = isset($path) ? $path : 'null';
 
-        return view('auth.upload', $file);
+        return view('auth.upload')->with('file', $file);
+    }
+
+    public function showThesis()
+    {
+        $teacher = Auth::guard('teacher')->user();
+        $theses = $teacher->theses;
+        foreach ($theses as $thesis) {
+            $userId = $thesis->user_id;
+            $user = User::find($userId);
+            $userName = $user->name;
+            $thesis['user_name'] = $userName;
+        }
+
+        return view('teacher.thesis')->with('theses', $theses);
     }
 
     public function createFolder(UploadNewFolderRequest $request)
@@ -113,17 +134,17 @@ class UploadController extends Controller
         $user = Auth::user();
         $file = $_FILES['file'];
         $original_name = $file['name'];
-        $filename = $user->id.'-'.'thesis';
-        $folder = $user->thesis->save_path;
-        $path = str_finish($folder, '/') . $filename;
+        $save_name = $user->id.'-'.'thesis';
+        $folder = $user->thesis->save_folder;
+        $path = str_finish($folder, '/') . $save_name;
         $content = File::get($file['tmp_name']);
         $result = $this->manager->saveFile($path, $content);
 
         if ($result === true) {
             $user->thesis->original_name = $original_name;
-            $user->thesis->filename = $filename;
+            $user->thesis->save_name = $save_name;
             $user->thesis->save();
-            return redirect()->back()->withSuccess("File '$filename' uploaded");
+            return redirect()->back()->withSuccess("File '$original_name' uploaded");
         }
 
         $error = $result ? : "An error occurred uploading file.";

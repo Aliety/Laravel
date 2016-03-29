@@ -34,7 +34,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('user/topic/show', 'Topic\TopicSelectController@show');
     Route::get('/upload/file', 'Admin\UploadController@showFile');
     Route::post('/upload/file', 'Admin\UploadController@uploadFile');
-    Route::post('/file/download', 'Admin\UploadController@downloadFile');
 });
 
 Route::group(['middleware' => ['web']], function () {
@@ -60,6 +59,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('topic/state/{id}', 'Topic\TopicController@state');
     Route::get('topic/active/{topic_id}/{user_id}', 'Topic\TopicController@active');
     Route::resource('topic', 'Topic\TopicController');
+    Route::get('/teacher/thesis', 'Admin\UploadController@showThesis');
+    Route::post('/file/download', 'Admin\UploadController@downloadFile');
+    Route::get('/thesis/check', 'ThesisController@edit');
+    Route::post('/thesis/check/{id}', 'ThesisController@update');
 
 });
 

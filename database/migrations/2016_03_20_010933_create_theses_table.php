@@ -14,15 +14,19 @@ class CreateThesesTable extends Migration
     {
         Schema::create('theses', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+            $table->integer('teacher_id');
             $table->text('original_name');
             $table->text('save_name');
-            $table->integer('topic_id')->unsigned();
             $table->string('save_folder');
+            $table->boolean('active');
+            $table->dateTime('defense_time');
             $table->timestamps();
         });
 
         Schema::table('theses', function (Blueprint $table) {
-            $table->foreign('topic_id')->references('id')->on('topics');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('teacher_id')->references('id')->on('teachers');
         });
     }
 

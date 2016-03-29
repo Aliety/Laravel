@@ -24,8 +24,8 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>{{ $topic }}</td>
-                        <td>{{ $name }}</td>
+                        <td>{{ $file['topic'] }}</td>
+                        <td>{{ $file['name'] }}</td>
                         <td>
                             <button type="button" class="btn btn-md btn-primary"
                                     data-toggle="modal" data-target="#modal-file-upload">
@@ -34,8 +34,8 @@
                             </button>
                             <form method="POST" action="/file/download">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="name" value="{{ $name }}">
-                                <input type="hidden" name="path" value="{{ $path }}">
+                                <input type="hidden" name="name" value="{{  $file['name'] }}">
+                                <input type="hidden" name="path" value="{{  $file['path'] }}">
                                 <button type="submit" class="btn btn-md btn-primary">
                                     <i class="fa fa-download fa-lg"></i>
                                     下载
@@ -54,7 +54,7 @@
             <div class="modal-content">
                 <form method="POST" action="/upload/file" class="form-horizontal" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="folder" value="{{ $name }}">
+                    <input type="hidden" name="folder" value="{{  $file['name'] }}">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">
                             x
@@ -88,8 +88,6 @@
             </div>
         </div>
     </div>
-
-
 
 @stop
 

@@ -22,6 +22,7 @@
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li><a href="{{ url('/teacher') }}">个人中心</a></li>
                 <li><a href="{{ url('/topic') }}">毕业设计</a></li>
+                <li><a href="{{ url('/teacher/thesis') }}">论文</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

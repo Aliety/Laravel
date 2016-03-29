@@ -31,5 +31,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Topic')->withPivot('id', 'active');
     }
 
+    public function thesis()
+    {
+        return $this->hasOne('App\Thesis');
+    }
+
 
 }
