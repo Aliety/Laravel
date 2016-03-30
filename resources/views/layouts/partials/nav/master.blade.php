@@ -22,17 +22,6 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/') }}">首页</a></li>
             </ul>
-
-            <!-- Right Side Of Navbar -->
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">管理员</a></li>
-                <li>
-                    <a href="{{ url('/teacher/logout') }}">
-                        <i class="fa fa-btn fa-sign-out"></i>
-                        退出登录
-                    </a>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>

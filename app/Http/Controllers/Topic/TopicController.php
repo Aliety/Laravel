@@ -83,4 +83,36 @@ class TopicController extends Controller
 
         return back()->withSuccess('success');
     }
+
+    public function showScore()
+    {
+        $teacher = Auth::guard('teacher')->user();
+        $topics = $teacher->topics;
+        foreach ($topics as $topic) {
+            foreach ($topic->users as $user) {
+                if ($user->pivot->active) {
+                    $topic['user_name'] = $user->name;
+                    $topic['user_id'] = $user->id;
+                    $topic['score'] = $user->pivot->score;
+                }
+            }
+        }
+
+        return view('topic.select.score.index')->with('topics', $topics);
+    }
+
+    public function confirmScore(Request $request)
+    {
+        $id = $request->input('id');
+        $userId = $request->input('user_id');
+        $topic = Topic::find($id);
+        foreach ($topic->users as $user) {
+            if ($user->id == $userId && $user->pivot->active == true) {
+                $user->pivot->score = $request->input('score');
+                $user->pivot->save();
+            }
+        }
+
+        return redirect()->back()->withSuccess('Success');
+    }
 }

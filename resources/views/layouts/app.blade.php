@@ -31,8 +31,10 @@
         @include("layouts.partials.nav.user")
     @elseif (Auth::guard('teacher')->check())
         @include("layouts.partials.nav.teacher")
-    @else
+    @elseif (Auth::guard('admin')->check())
         @include('layouts.partials.nav.app')
+    @else
+        @include('layouts.partials.nav.master')
     @endif
 
     @yield('content')

@@ -63,6 +63,8 @@ class UploadController extends Controller
             }
         }
 
+        $file['active'] = $user->thesis->active;
+        $file['defense_time'] = $user->thesis->defense_time;
         $file['topic'] = isset($topicName) ? $topicName : '未确认选课';
         $file['name'] = isset($name) ? $name : '未上传';
         $file['path'] = isset($path) ? $path : 'null';

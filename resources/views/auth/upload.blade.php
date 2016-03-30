@@ -19,6 +19,8 @@
                     <tr>
                         <th>课题</th>
                         <th>论文</th>
+                        <th>状态</th>
+                        <th>答辩时间</th>
                         <th data-sortable="false">Actions</th>
                     </tr>
                     </thead>
@@ -26,21 +28,14 @@
                     <tr>
                         <td>{{ $file['topic'] }}</td>
                         <td>{{ $file['name'] }}</td>
+                        <td>{{ $file['active'] ? '已通过' : '未审核' }}</td>
+                        <td>{{ $file['defense_time'] }}</td>
                         <td>
                             <button type="button" class="btn btn-md btn-primary"
                                     data-toggle="modal" data-target="#modal-file-upload">
                                 <i class="fa fa-upload fa-lg"></i>
                                 上传
                             </button>
-                            <form method="POST" action="/file/download">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="name" value="{{  $file['name'] }}">
-                                <input type="hidden" name="path" value="{{  $file['path'] }}">
-                                <button type="submit" class="btn btn-md btn-primary">
-                                    <i class="fa fa-download fa-lg"></i>
-                                    下载
-                                </button>
-                            </form>
                         </td>
                     </tr>
                     </tbody>

@@ -72,8 +72,7 @@
                     <h4 class="modal-title">论文管理</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ url('/thesis/check', $thesis['id']) }}" class="form-horizontal"
-                          enctype="multipart/form-data">
+                    <form method="POST" action="{{ url('/thesis/check', $thesis['id']) }}" class="form-horizontal">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group">
                             <label for="defense_time" class="col-sm-3 control-label">

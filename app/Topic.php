@@ -12,7 +12,7 @@ class Topic extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User')->withPivot('id', 'active');
+        return $this->belongsToMany('App\User')->withPivot('id', 'active', 'score');
     }
 
     public function teacher()

@@ -63,7 +63,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/file/download', 'Admin\UploadController@downloadFile');
     Route::get('/thesis/check', 'ThesisController@edit');
     Route::post('/thesis/check/{id}', 'ThesisController@update');
-
+    Route::get('/teacher/topic/score', 'Topic\TopicController@showScore');
+    Route::post('/teacher/topic/score', 'Topic\TopicController@confirmScore');
 });
 
 Route::group(['middleware' => 'web'], function () {

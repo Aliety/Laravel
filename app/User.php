@@ -28,7 +28,7 @@ class User extends Authenticatable
 
     public function topics()
     {
-        return $this->belongsToMany('App\Topic')->withPivot('id', 'active');
+        return $this->belongsToMany('App\Topic')->withPivot('id', 'active', 'score');
     }
 
     public function thesis()
