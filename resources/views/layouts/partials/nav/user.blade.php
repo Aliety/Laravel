@@ -42,6 +42,7 @@
                         <li><a href="{{ url('user/topic/select') }}">论文答辩</a></li>
                     </ul>
                 </li>
+                <li><a href="{{ url('/user/task/show') }}">任务书</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

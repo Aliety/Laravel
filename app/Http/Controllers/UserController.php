@@ -50,4 +50,9 @@ class UserController extends Controller
 
         return redirect("/user/$id/edit")->withSuccess("Changes saved");
     }
+
+    public function enter()
+    {
+        return redirect('/user');
+    }
 }

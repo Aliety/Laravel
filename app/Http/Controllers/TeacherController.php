@@ -48,6 +48,10 @@ class TeacherController extends Controller
         $teacher->save();
 
         return redirect("/teacher")->withSuccess("Changed saved");
+    }
 
+    public function enter()
+    {
+        return redirect('/teacher');
     }
 }

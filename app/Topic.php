@@ -24,4 +24,9 @@ class Topic extends Model
     {
         return $this->hasMany('App\Thesis');
     }
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Task');
+    }
 }

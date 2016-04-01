@@ -15,6 +15,7 @@ class AuthController extends Controller
     protected $redirectTo = '/teacher';
     protected $guard = 'teacher';
     protected $loginView = 'teacher.login';
+    protected $username = 'id';
 
     public function __construct()
     {

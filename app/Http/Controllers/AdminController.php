@@ -19,4 +19,9 @@ class AdminController extends Controller
 
         return view('admin.index');
     }
+
+    public function enter()
+    {
+        return redirect('/admin');
+    }
 }

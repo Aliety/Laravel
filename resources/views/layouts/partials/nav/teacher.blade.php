@@ -32,6 +32,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ url('/teacher/thesis') }}">论文</a></li>
+                <li><a href="{{ route('task.index') }}">任务书</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
