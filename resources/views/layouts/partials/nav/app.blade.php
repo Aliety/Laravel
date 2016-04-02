@@ -22,6 +22,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/') }}">首页</a></li>
                 <li><a href="/admin/news">新闻</a></li>
+                <li><a href="/admin/notice">通知</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

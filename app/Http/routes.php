@@ -45,6 +45,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/enter', 'AdminController@enter');
     Route::get('admin/upload', 'Admin\UploadController@index');
     Route::resource('/admin/news', 'NewsController');
+    Route::resource('/admin/notice', 'NoticeController');
     Route::delete('admin/upload/file', 'Admin\UploadController@deleteFile');
     Route::post('admin/upload/folder', 'Admin\UploadController@createFolder');
     Route::delete('admin/upload/folder', 'Admin\UploadController@deleteFolder');
