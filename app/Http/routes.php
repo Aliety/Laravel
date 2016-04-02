@@ -43,6 +43,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/admin/register', 'Admin\AuthController@postRegister');
     Route::get('/admin', 'AdminController@index');
     Route::get('/admin/enter', 'AdminController@enter');
+    Route::get('/admin/user', 'AdminController@userIndex');
+    Route::get('/admin/teacher', 'AdminController@teacherIndex');
+    Route::post('/admin/user/create', 'AdminController@userAdd');
+    Route::post('/admin/teacher/create', 'AdminController@teacherAdd');
+    Route::delete('/admin/user/{id}', 'AdminController@userDelete');
+    Route::delete('/admin/teacher/{id}', 'AdminController@teacherDelete');
     Route::get('admin/upload', 'Admin\UploadController@index');
     Route::resource('/admin/news', 'NewsController');
     Route::resource('/admin/notice', 'NoticeController');

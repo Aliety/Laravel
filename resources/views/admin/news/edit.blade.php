@@ -4,9 +4,7 @@
     <div class="container-fluid">
         <div class="row page-title-row">
             <div class="col-md-12">
-                <h3>News
-                    <small>» Create New News</small>
-                </h3>
+                <h3>更新新闻</h3>
             </div>
         </div>
 
@@ -14,7 +12,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">New News Form</h3>
+                        <h3 class="panel-title">新闻表单</h3>
                     </div>
                     <div class="panel-body">
 
@@ -27,7 +25,7 @@
                             <input type="hidden" name="id" value="{{ $id }}">
 
                             <div class="form-group">
-                                <label for="title" class="col-md-3 control-label">Title</label>
+                                <label for="title" class="col-md-3 control-label">标题</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="title" id="title"
                                            value="{{ $title }}" autofocus>
@@ -35,7 +33,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="content" class="col-md-3 control-label">Content</label>
+                                <label for="content" class="col-md-3 control-label">内容</label>
                                 <div class="col-md-6">
                                     <textarea class="form-control" name="content" id="content"
                                               rows="6">{{ $content }}</textarea>
@@ -71,21 +69,21 @@
                     <button type="button" class="close" data-dismiss="modal">
                         ×
                     </button>
-                    <h4 class="modal-title">Please Confirm</h4>
+                    <h4 class="modal-title">请确认</h4>
                 </div>
                 <div class="modal-body">
                     <p class="lead">
                         <i class="fa fa-question-circle fa-lg"></i>
-                        Are you sure you want to delete this tag?
+                        确定删除该新闻？
                     </p>
                 </div>
                 <div class="modal-footer">
                     <form method="POST" action="/admin/news/{{ $id }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="DELETE">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="submit" class="btn btn-danger">
-                            <i class="fa fa-times-circle"></i> Yes
+                            <i class="fa fa-times-circle"></i> 确定
                         </button>
                     </form>
                 </div>

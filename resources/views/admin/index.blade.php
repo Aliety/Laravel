@@ -7,8 +7,12 @@
         </div>
         <hr/>
         <div class="row col-md-4 text-center">
-            <a href="/admin/upload" type="button" class="btn btn-primary btn-lg">
-                用户管理
+            <a href="/admin/user" type="button" class="btn btn-primary btn-lg">
+                学生管理
+            </a>
+        </div><div class="row col-md-4 text-center">
+            <a href="/admin/teacher" type="button" class="btn btn-primary btn-lg">
+                教师管理
             </a>
         </div>
         <div class="row col-md-4 text-center">
