@@ -7,6 +7,7 @@ use Auth;
 use App\Http\Requests;
 use App\User;
 use App\Teacher;
+use App\Topic;
 
 class AdminController extends Controller
 {
@@ -49,7 +50,7 @@ class AdminController extends Controller
 
         $user = new User();
         $user->id = $request->input('id');
-        $user->email = $request->input('id').'@hqu.com';
+        $user->email = $request->input('id') . '@hqu.com';
         $user->password = bcrypt($request->input('id'));
         $user->save();
 
@@ -64,7 +65,7 @@ class AdminController extends Controller
 
         $teacher = new Teacher();
         $teacher->id = $request->input('id');
-        $teacher->email = $request->input('id').'@hqu.com';
+        $teacher->email = $request->input('id') . '@hqu.com';
         $teacher->password = bcrypt($request->input('id'));
         $teacher->save();
 
@@ -74,11 +75,11 @@ class AdminController extends Controller
     public function userDelete($id)
     {
         $user = User::findOrFail($id);
-        if (! empty($user->thesis()->first())) {
+        if (!empty($user->thesis()->first())) {
             return redirect()->back()->withErrors("thesis exist");
         }
 
-        if (! empty($user->topics()->first())) {
+        if (!empty($user->topics()->first())) {
             return redirect()->back()->withErrors("topic exist");
         }
 
@@ -90,16 +91,56 @@ class AdminController extends Controller
     public function teacherDelete($id)
     {
         $teacher = Teacher::findOrFail($id);
-        if (! empty($teacher->theses()->first())) {
+        if (!empty($teacher->theses()->first())) {
             return redirect()->back()->withErrors("thesis exist");
         }
 
-        if (! empty($teacher->topics()->first())) {
+        if (!empty($teacher->topics()->first())) {
             return redirect()->back()->withErrors("topic exist");
         }
 
         $teacher->delete();
 
         return redirect('/admin/teacher')->withSuccess("deleted");
+    }
+
+    public function topicIndex()
+    {
+        $topics = Topic::all();
+        foreach ($topics as $topic) {
+            if ($topic->users()->first()) {
+                $topic['active'] = true;
+            }
+        }
+
+        return view('admin.topic.show')->withTopics($topics);
+    }
+
+    public function topicShow($id)
+    {
+        $topic = Topic::find($id);
+        $users = $topic->users;
+        foreach ($users as $user) {
+            $user['topic_name'] = $topic->name;
+            $user['topic_id'] = $topic->id;
+        }
+
+        return view('admin.topic.index')->withUsers($users);
+    }
+
+    public function topicDelete($id)
+    {
+        $topic = Topic::find($id);
+        $topic->delete();
+
+        return redirect("/admin/topic")->withSuccess("deleted");
+    }
+
+    public function selectDelete(Request $request)
+    {
+        $user = User::find($request->input('user_id'));
+        $user->topics()->detach($request->input('topic_id'));
+
+        return redirect()->back()->withSuccess('deleted');
     }
 }

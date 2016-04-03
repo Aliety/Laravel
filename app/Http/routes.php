@@ -44,6 +44,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin', 'AdminController@index');
     Route::get('/admin/enter', 'AdminController@enter');
     Route::get('/admin/user', 'AdminController@userIndex');
+    Route::get('/admin/topic', 'AdminController@topicIndex');
+    Route::get('/admin/topic/{id}', 'AdminController@topicShow');
+    Route::delete('/admin/topic/user', 'AdminController@selectDelete');
+    Route::delete('/admin/topic/{id}', 'AdminController@topicDelete');
     Route::get('/admin/teacher', 'AdminController@teacherIndex');
     Route::post('/admin/user/create', 'AdminController@userAdd');
     Route::post('/admin/teacher/create', 'AdminController@teacherAdd');

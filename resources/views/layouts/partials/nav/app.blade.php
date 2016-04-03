@@ -34,6 +34,7 @@
                 <li><a href="/admin/news">新闻</a></li>
                 <li><a href="/admin/notice">通知</a></li>
                 <li><a href="/admin/upload">文件管理</a></li>
+                <li><a href="/admin/topic">课题管理</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

@@ -123,7 +123,7 @@ class UploadController extends Controller
 
         $result = $this->manager->deleteDirectory($folder);
 
-        if ($request === true) {
+        if ($result === true) {
             return redirect()->back()->withSuccess("Folder '$del_folder' deleted");
         }
 
@@ -152,6 +152,28 @@ class UploadController extends Controller
         $error = $result ? : "An error occurred uploading file.";
 
         return redirect()->back()->withErrors([$error]);
+    }
+
+    public function uploadFile1(UploadFileRequest $request)
+    {
+        $file = $_FILES['file'];
+        $fileName = $request->get('file_name');
+        $fileName = $fileName ?: $file['name'];
+        $path = str_finish($request->get('folder'), '/') . $fileName;
+        $content = File::get($file['tmp_name']);
+
+        $result = $this->manager->saveFile($path, $content);
+
+        if ($result === true) {
+            return redirect()
+                ->back()
+                ->withSuccess("File '$fileName' uploaded.");
+        }
+
+        $error = $result ? : "An error occurred uploading file.";
+        return redirect()
+            ->back()
+            ->withErrors([$error]);
     }
 
     public function downloadFile(Request $request)

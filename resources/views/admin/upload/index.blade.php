@@ -67,11 +67,7 @@
                         <tr>
                             <td>
                                 <a href="{{ $file['webPath'] }}">
-                                    @if (is_image($file['mimeType']))
-                                        <i class="fa fa-file-image-o fa-lg fa-fw"></i>
-                                    @else
-                                        <i class="fa fa-file-o fa-lg fa-fw"></i>
-                                    @endif
+                                    <i class="fa fa-file-o fa-lg fa-fw"></i>
                                     {{ $file['name'] }}
                                 </a>
                             </td>
@@ -84,13 +80,6 @@
                                     <i class="fa fa-times-circle fa-lg"></i>
                                     Delete
                                 </button>
-                                @if (is_image($file['mimeType']))
-                                    <button type="button" class="btn btn-xs btn-success"
-                                            onclick="preview_image('{{ $file['webPath'] }}')">
-                                        <i class="fa fa-eye fa-lg"></i>
-                                        Preview
-                                    </button>
-                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -116,11 +105,6 @@
             $("#delete-folder-name1").html(name);
             $("#delete-folder-name2").val(name);
             $("#modal-folder-delete").modal("show");
-        }
-
-        function preview_image(path) {
-            $("#preview-image").attr("src", path);
-            $("#modal-image-view").modal("show");
         }
 
         $(function () {

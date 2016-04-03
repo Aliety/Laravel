@@ -75,14 +75,14 @@
                 <button type="button" class="close" data-dismiss="modal">
                     x
                 </button>
-                <h4 class="modal-title">Please Confirm</h4>
+                <h4 class="modal-title">请确认</h4>
             </div>
             <div class="modal-body">
                 <p class="lead">
                     <i class="fa fa-question-circle fa-lg">
-                        Are you sure want to delete the
+                        确定删除
                         <kbd><span id="delete-folder-name1">folder</span></kbd>
-                        folder?
+                        吗？
                     </i>
                 </p>
             </div>
@@ -93,10 +93,10 @@
                     <input type="hidden" name="folder" value="{{ $folder }}">
                     <input type="hidden" name="del_folder" id="delete-folder-name2">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
-                        Cancel
+                        取消
                     </button>
                     <button type="submit" class="btn btn-danger">
-                        Delete Folder
+                        确定
                     </button>
                 </form>
             </div>
@@ -109,7 +109,7 @@
         <div class="modal-content">
             <form method="POST" action="/upload/file" class="form-horizontal" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="folder" value="{{ $save_path }}">
+                <input type="hidden" name="folder" value="{{ $folder }}">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         x
