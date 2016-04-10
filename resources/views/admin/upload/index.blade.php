@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="pull-left">Uploads</h3>
+                <h3 class="pull-left">文件列表</h3>
                 <div class="pull-left">
                     <ul class="breadcrumb">
                         @foreach ($breadcrumbs as $path => $disp)
@@ -17,11 +17,7 @@
             <div class="col-md-6 text-right">
                 <button type="button" class="btn btn-success btn-md" data-toggle="modal"
                         data-target="#modal-folder-create">
-                    <i class="fa fa-plus-circle"></i> New Folder
-                </button>
-                <button type="button" class="btn btn-primary btn-md" data-toggle="modal"
-                        data-target="#modal-file-upload">
-                    <i class="fa fa-upload"></i> Upload
+                    <i class="fa fa-plus-circle"></i> 新建文件夹
                 </button>
             </div>
         </div>
@@ -35,11 +31,10 @@
                 <table id="uploads-table" class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Data</th>
-                        <th>Size</th>
-                        <th data-sortable="false">Actions</th>
+                        <th>名陈</th>
+                        <th>时间</th>
+                        <th>大小</th>
+                        <th data-sortable="false">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,7 +45,6 @@
                                     <i class="fa fa-folder fa-lg fa-fw"></i> {{ $name }}
                                 </a>
                             </td>
-                            <td>Folder</td>
                             <td>-</td>
                             <td>-</td>
                             <td>
@@ -71,15 +65,28 @@
                                     {{ $file['name'] }}
                                 </a>
                             </td>
-                            <td>{{ $file['mimeType'] or 'Unknown' }}</td>
                             <td>{{ $file['modified']->format('j-M-y g:ia') }}</td>
                             <td>{{ human_filesize($file['size']) }}</td>
                             <td>
-                                <button type="button" class="btn btn-xs btn-danger"
-                                        onclick="delete_file('{{ $file['name'] }}')">
-                                    <i class="fa fa-times-circle fa-lg"></i>
-                                    Delete
-                                </button>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-md btn-danger"
+                                                onclick="delete_file('{{ $file['name'] }}')">
+                                            <i class="fa fa-times-circle fa-lg"></i>
+                                            删除
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <form method="POST" action="/file/download">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="path" value="{{ $file['fullPath'] }}">
+                                            <button type="submit" class="btn btn-md btn-primary">
+                                                <i class="fa fa-download fa-lg"></i>
+                                                下载
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

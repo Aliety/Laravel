@@ -7,6 +7,8 @@ use App\User;
 use App\Http\Requests\UserUpdateRequest;
 use Auth;
 use App\Http\Requests;
+use App\Notice;
+use App\News;
 
 class UserController extends Controller
 {
@@ -53,6 +55,14 @@ class UserController extends Controller
 
     public function enter()
     {
-        return redirect('/user');
+        return redirect('/user/home');
+    }
+
+    public function information()
+    {
+        $news = News::paginate(5);
+        $notices = Notice::paginate(5);
+
+        return view('home', compact('news', 'notices'));
     }
 }

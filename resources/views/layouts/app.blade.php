@@ -37,9 +37,10 @@
         @include('layouts.partials.nav.master')
     @endif
 
+    @yield('page-header')
     @yield('content')
 
-    <script src="/assets/js/admin.js"></script>
+    <script src="/assets/js/glhqu.js"></script>
 
     @yield('scripts')
 </body>

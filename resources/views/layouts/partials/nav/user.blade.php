@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default">
     <div class="container">
-        <div class="navbar-header">
+        <div class="navbar-header page-scoll">
 
             <!-- Collapsed Hamburger -->
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -21,6 +21,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/') }}">首页</a></li>
+                <li><a href="{{ url('/user/home') }}">资讯</a></li>
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                        aria-expanded="false">
@@ -31,18 +32,8 @@
                         <li><a href="{{ url('user/topic/select') }}">选题系统</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-                       aria-expanded="false">
-                        论文报告 <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url('upload/file') }}">我的论文</a></li>
-                        <li><a href="{{ url('user/topic/select') }}">开题报告</a></li>
-                        <li><a href="{{ url('user/topic/select') }}">论文答辩</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{ url('/user/task/show') }}">任务书</a></li>
+                <li><a href="{{ url('upload/file') }}">论文报告</a></li>
+                <li><a href="/user/task/show">任务书</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

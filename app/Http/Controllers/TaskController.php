@@ -76,12 +76,13 @@ class TaskController extends Controller
             }
         }
 
-        if ($id) {
+        $tasks = [];
+        if (isset($id)) {
             $topic = Topic::find($id);
             $tasks = $topic->tasks;
             return view('task.user')->with('tasks', $tasks);
         }
 
-        return redirect()->back()->withMsg('not exist');
+        return view('task.user')->with('tasks', $tasks);
     }
 }

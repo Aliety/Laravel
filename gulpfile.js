@@ -49,5 +49,12 @@ elixir(function(mix) {
         'resources/assets'
     );
 
+    mix.scripts([
+        'js/jquery.js',
+        'js/bootstrap.js',
+        'js/glhqu.js'
+    ], 'public/assets/js/glhqu.js', 'resources//assets');
+
+
     mix.less('glhqu.less', 'public/assets/css/glhqu.css');
 });

@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', 'HomeController@index');
+Route::get('/news', 'HomeController@news');
+
 Route::post('ajax', 'Topic\TopicSelectController@ajax');
 
 /*
@@ -84,6 +87,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get('user/enter', 'UserController@enter');
+    Route::get('user/home', 'UserController@information');
     Route::resource('/user', 'UserController');
     Route::get('user/topic/select', 'Topic\TopicSelectController@index');
     Route::post('user/topic/confirm', 'Topic\TopicSelectController@confirm');

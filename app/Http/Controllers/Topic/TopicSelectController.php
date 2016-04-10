@@ -26,7 +26,7 @@ class TopicSelectController extends Controller
     public function show()
     {
         $user = Auth::user();
-
+        $datas = [];
         foreach ($user->topics as $topic) {
             $topic['teacher_name'] = Teacher::where('id', $topic->teacher_id)->first()->name;
             $datas[] = $topic;

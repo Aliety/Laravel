@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\News;
+use App\Notice;
 
 class HomeController extends Controller
 {
@@ -15,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //
     }
 
     /**
@@ -25,8 +27,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $news = News::paginate(3);
+        $notices = Notice::paginate(3);
 
-        return view('auth.me.index', compact('user'));
+        return view('home', compact('news', 'notices'));
+    }
+
+    public function news()
+    {
+        $news = News::where('created_at', '<=', Carbon::now())
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('admin.news.index', compact('news'));
     }
 }

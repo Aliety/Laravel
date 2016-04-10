@@ -34,7 +34,7 @@ class UploadController extends Controller
 
     public function showFile(Request $request)
     {
-        $file = [];
+        $file = ['active' => '', 'defense_time' => '', 'topic' => '', 'name' => '', 'path' => ''];
         $user = Auth::user();
         foreach ($user->topics as $topic) {
             if ($topic->pivot->active) {
@@ -42,7 +42,7 @@ class UploadController extends Controller
                 $teacherId = Topic::find($topic->id)->teacher_id;
             }
         }
-
+        $file['topic'] = isset($topicName) ? $topicName : '未确认选课';
         if (empty($topicName)) {
             return view('auth.upload')->with('file', $file);
         }
@@ -54,10 +54,11 @@ class UploadController extends Controller
         }
 
         $folder = isset($folder) ? $folder : $user->thesis->save_folder;
-        if (isset($user->thesis->save_name)) {
+        if (! empty($user->thesis->save_name)) {
             $filename = $user->thesis->save_name;
             $path = $folder.'/'.$filename;
             $result = $this->disk->exists($path);
+
             if ($result) {
                 $name = $user->thesis->original_name;
             }
@@ -65,10 +66,8 @@ class UploadController extends Controller
 
         $file['active'] = $user->thesis->active;
         $file['defense_time'] = $user->thesis->defense_time;
-        $file['topic'] = isset($topicName) ? $topicName : '未确认选课';
         $file['name'] = isset($name) ? $name : '未上传';
         $file['path'] = isset($path) ? $path : 'null';
-
         return view('auth.upload')->with('file', $file);
     }
 
@@ -136,11 +135,14 @@ class UploadController extends Controller
         $user = Auth::user();
         $file = $_FILES['file'];
         $original_name = $file['name'];
-        $save_name = $user->id.'-'.'thesis';
         $folder = $user->thesis->save_folder;
-        $path = str_finish($folder, '/') . $save_name;
+        $path = str_finish($folder, '/') . $original_name;
+        $path_parts = pathinfo($path);
+        $extension = $path_parts['extension'];
+        $save_name = $user->id.'.'.$extension;
+        $save_path = $folder.'/'.$save_name;
         $content = File::get($file['tmp_name']);
-        $result = $this->manager->saveFile($path, $content);
+        $result = $this->manager->saveFile($save_path, $content);
 
         if ($result === true) {
             $user->thesis->original_name = $original_name;
@@ -154,31 +156,10 @@ class UploadController extends Controller
         return redirect()->back()->withErrors([$error]);
     }
 
-    public function uploadFile1(UploadFileRequest $request)
-    {
-        $file = $_FILES['file'];
-        $fileName = $request->get('file_name');
-        $fileName = $fileName ?: $file['name'];
-        $path = str_finish($request->get('folder'), '/') . $fileName;
-        $content = File::get($file['tmp_name']);
-
-        $result = $this->manager->saveFile($path, $content);
-
-        if ($result === true) {
-            return redirect()
-                ->back()
-                ->withSuccess("File '$fileName' uploaded.");
-        }
-
-        $error = $result ? : "An error occurred uploading file.";
-        return redirect()
-            ->back()
-            ->withErrors([$error]);
-    }
-
     public function downloadFile(Request $request)
     {
         $path = public_path('uploads'.'/'.$request->get('path'));
-        return response()->download($path, $request->get('name'));
+
+        return response()->download($path);
     }
 }
