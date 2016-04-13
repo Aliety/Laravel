@@ -26,9 +26,7 @@
                                 </h4>
                             </div>
                             <div class="modal-body">
-                                <h4 class="modal-title" id="myModalLabel">
-                                    初始密码与工号相同
-                                </h4>
+                                <h4>初始密码与工号相同</h4>
                                 <form role="form" method="POST" action="/admin/teacher/create"
                                       class="form-horizontal">
                                     {!! csrf_field() !!}

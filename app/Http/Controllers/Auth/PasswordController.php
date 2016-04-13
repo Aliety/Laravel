@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use Auth;
 
 class PasswordController extends Controller
 {
@@ -27,6 +29,20 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['showResetForm', 'reset']]);
+    }
+
+    public function reset(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required|confirmed|min:6',
+        ]);
+        $password = $request->input('password');
+        $user = Auth::user();
+        $user->password = bcrypt($password);
+        $user->save();
+
+        return redirect('/user/home')->withSuccess('password updated !');
+
     }
 }

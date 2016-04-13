@@ -51,6 +51,52 @@
                                             <i class="fa fa-check fa-lg"></i>
                                             操作
                                         </button>
+                                        <div class="modal fade" id="modal-check">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">
+                                                            x
+                                                        </button>
+                                                        <h4 class="modal-title">论文管理</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST"
+                                                              action="{{ url('/thesis/check', $thesis['id']) }}"
+                                                              class="form-horizontal">
+                                                            <input type="hidden" name="_token"
+                                                                   value="{{ csrf_token() }}">
+                                                            <div class="form-group">
+                                                                <label for="defense_time"
+                                                                       class="col-sm-3 control-label">
+                                                                    答辩时间
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" class="form-control"
+                                                                           id="defense_time"
+                                                                           name="defense_time"
+                                                                           value="{{ $thesis['defense_time'] }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="check"> 审核通过
+                                                                </label>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-success">
+                                                                确认
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -61,47 +107,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="modal-check">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        x
-                    </button>
-                    <h4 class="modal-title">论文管理</h4>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{ url('/thesis/check', $thesis['id']) }}" class="form-horizontal">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="form-group">
-                            <label for="defense_time" class="col-sm-3 control-label">
-                                答辩时间
-                            </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="defense_time"
-                                       name="defense_time" value="{{ $thesis['defense_time'] }}">
-                            </div>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="check"> 审核通过
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-success">
-                            确认
-                        </button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        取消
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @stop
 
 @section('scripts')

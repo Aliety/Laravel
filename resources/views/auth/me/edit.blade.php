@@ -3,8 +3,8 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <h3>Edit</h3>
+            <div class="col-md-12 col-md-offset-2">
+                <h3>资料修改</h3>
             </div>
         </div>
 
@@ -12,7 +12,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Edit Form</h3>
+                        <h3 class="panel-title">我的信息</h3>
                     </div>
                     <div class="panel-body">
 
@@ -83,10 +83,10 @@
                                 <div class="col-md-7 col-md-offset-3">
                                     <button type="submit" class="btn btn-primary btn-md">
                                         <i class="fa fa-save"></i>
-                                        Save Changes
+                                        保存
                                     </button>
                                     <a href="{{ route('user.index') }}" class="btn btn-primary btn-md">
-                                        Back
+                                        返回
                                     </a>
                                 </div>
                             </div>

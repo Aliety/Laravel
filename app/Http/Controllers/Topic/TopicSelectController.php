@@ -35,23 +35,13 @@ class TopicSelectController extends Controller
         return view('topic.select.show')->withdatas($datas);
     }
 
-    public function ajax(Request $request)
+    public function bread(Request $request)
     {
         $college = $request->input('college');
         $grade = $request->input('grade');
-        if ($request->ajax()) {
-            if ($college == 'all' && $grade != 'all') {
-                $datas = Topic::where('grade', $grade)->get();
-            }
-            if ($college != 'all' && $grade == 'all') {
-                $datas = Topic::where('college', $college)->get();
-            }
-            if ($college == 'all' && $grade == 'all') {
-                $datas = Topic::all();
-            }
-            return response()->json($datas);
-        } else
-            return response()->json(['msg' => 'false']);
+        $topics = Topic::where('college', $college)->where('grade', $grade)->get();
+
+        return view('topic.select.index', ['datas' => $topics]);
     }
 
     public function confirm(Request $request)

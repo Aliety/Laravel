@@ -50,7 +50,7 @@ class UserController extends Controller
         }
         $user->save();
 
-        return redirect("/user/$id/edit")->withSuccess("Changes saved");
+        return redirect("/user/$id/edit")->withSuccess('成功');
     }
 
     public function enter()
@@ -60,8 +60,8 @@ class UserController extends Controller
 
     public function information()
     {
-        $news = News::paginate(5);
-        $notices = Notice::paginate(5);
+        $news = News::paginate(3);
+        $notices = Notice::paginate(3);
 
         return view('home', compact('news', 'notices'));
     }

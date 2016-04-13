@@ -7,6 +7,8 @@ use Auth;
 use App\Teacher;
 use App\Http\Requests\TeacherUpdateRequest;
 use App\Http\Requests;
+use App\News;
+use App\Notice;
 
 class TeacherController extends Controller
 {
@@ -47,11 +49,19 @@ class TeacherController extends Controller
         }
         $teacher->save();
 
-        return redirect("/teacher")->withSuccess("Changed saved");
+        return redirect("/teacher/$id/edit")->withSuccess("成功");
     }
 
     public function enter()
     {
-        return redirect('/teacher');
+        return redirect('/teacher/home');
+    }
+
+    public function information()
+    {
+        $news = News::paginate(3);
+        $notices = Notice::paginate(3);
+
+        return view('home', compact('news', 'notices'));
     }
 }

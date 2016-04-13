@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row page-title-row">
             <div class="col-md-12">
-                <h3>Edit Topic</h3>
+                <h3>编辑课题</h3>
             </div>
         </div>
 
@@ -12,7 +12,7 @@
             <div class="col-sm-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Topic Form</h3>
+                        <h3 class="panel-title">课题信息</h3>
                     </div>
                     <div class="panel-body">
 
@@ -30,7 +30,7 @@
                                     <div class="col-md-10 col-md-offset-2">
                                         <button type="submit" class="btn btn-primary btn-lg">
                                             <i class="fa fa-disk-o"></i>
-                                            Save Topic
+                                            保存
                                         </button>
                                     </div>
                                 </div>

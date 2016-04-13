@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @include('layouts.partials.success')
+    @include('layouts.partials.errors')
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">

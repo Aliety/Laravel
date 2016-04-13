@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <h1 class="text-center">个人资料</h1>
+        <div class="row text-center">
+            <h1>个人资料</h1>
         </div>
 
         <hr/>
@@ -26,10 +26,10 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6 text-center">
+        <div class="row text-center">
+            <div class="col-md-12 ">
                 <a href="{{ route('teacher.edit', ['id' => $id]) }}" class="btn btn-success btn-md">
-                    <i class="fa fa-plus-circle"></i> Edit
+                    <i class="fa fa-plus-circle"></i> 编辑
                 </a>
             </div>
         </div>

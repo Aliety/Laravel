@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row page-title-row">
             <div class="col-md-6">
-                <h3>Topic Showing</h3>
+                <h3>我的选题</h3>
             </div>
         </div>
     </div>
@@ -14,9 +14,9 @@
             <table id="courses" class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Teacher</th>
-                    <th>Action</th>
+                    <th>课题名称</th>
+                    <th>教师</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                             @else
                                 <button class="btn btn-primary btn-md" data-toggle="modal"
                                         data-target="#{{ $data->id }}">
-                                    Delete
+                                    删除
                                 </button>
 
                                 <div class="modal fade" id="{{ $data->id }}" data-id="{{ $data->id }}" tabindex="-1"
@@ -47,11 +47,11 @@
                                                     &times;
                                                 </button>
                                                 <h4 class="modal-title" id="myModalLabel">
-                                                    Delete Topic
+                                                    删除选课
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                                Are you sure to delete the topic {{ $data->name }} ?
+                                                确定删除课题 {{ $data->name }} ?
                                             </div>
                                             <div class="modal-footer">
                                                 <form role="form" method="POST" action="{{ url('user/topic/delete') }}">
@@ -59,11 +59,11 @@
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                                     <button type="submit" class="btn btn-primary">
-                                                        <i class="fa fa-floppy-o"></i>\
-                                                        Delete
+                                                        <i class="fa fa-check"></i>\
+                                                        确认
                                                     </button>
                                                     <button type="button" class="btn btn-default"
-                                                            data-dismiss="modal">Cancle
+                                                            data-dismiss="modal">取消
                                                     </button>
                                                 </form>
                                             </div>

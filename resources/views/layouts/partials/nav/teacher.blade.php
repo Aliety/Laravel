@@ -27,7 +27,7 @@
                         毕业设计 <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ url('/topic') }}">我的选题</a></li>
+                        <li><a href="{{ url('/topic') }}">我的课题</a></li>
                         <li><a href="{{ url('/teacher/topic/score') }}">成绩评定</a></li>
                     </ul>
                 </li>
@@ -39,7 +39,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        {{ Auth::guard('teacher')->user()->name }} <span class="caret"></span>
+                        {{ Auth::guard('teacher')->user()->id }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ url('/teacher') }}"><i class="fa fa-btn fa-home"></i>个人中心</a></li>

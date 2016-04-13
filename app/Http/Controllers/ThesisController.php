@@ -19,7 +19,6 @@ class ThesisController extends Controller
     public function update(Request $request, $id)
     {
         $thesis = Thesis::find($id);
-        //dd($request->input('check'));
         if ($request->input('check')) {
             $thesis->active = (bool)$request->input('check');
         }

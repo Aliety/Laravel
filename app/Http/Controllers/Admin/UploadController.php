@@ -82,7 +82,8 @@ class UploadController extends Controller
             $thesis['user_name'] = $userName;
         }
 
-        return view('teacher.thesis')->with('theses', $theses);
+        //return view('teacher.thesis')->with('theses', $theses);
+        return view('teacher.thesis', compact('theses'));
     }
 
     public function createFolder(UploadNewFolderRequest $request)

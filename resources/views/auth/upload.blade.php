@@ -21,7 +21,7 @@
                         <th>论文</th>
                         <th>状态</th>
                         <th>答辩时间</th>
-                        <th data-sortable="false">Actions</th>
+                        <th data-sortable="false">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,11 +31,17 @@
                         <td>{{ $file['active'] ? '已通过' : '未审核' }}</td>
                         <td>{{ $file['defense_time'] }}</td>
                         <td>
-                            <button type="button" class="btn btn-md btn-primary"
-                                    data-toggle="modal" data-target="#modal-file-upload">
-                                <i class="fa fa-upload fa-lg"></i>
-                                上传
-                            </button>
+                            @if ( $file['topic'] == '未确认选课')
+                                <button class="btn btn-success btn-md" disabled="disabled">
+                                    上传
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-md btn-primary"
+                                        data-toggle="modal" data-target="#modal-file-upload">
+                                    <i class="fa fa-upload fa-lg"></i>
+                                    上传
+                                </button>
+                            @endif
                         </td>
                     </tr>
                     </tbody>
@@ -54,7 +60,7 @@
                         <button type="button" class="close" data-dismiss="modal">
                             x
                         </button>
-                        <h4 class="modal-title">Upload New File</h4>
+                        <h4 class="modal-title">上传论文</h4>
                     </div>
                     <div class="modal-body">
                         <p class="lead">
@@ -64,7 +70,7 @@
                         </p>
                         <div class="form-group">
                             <label for="file" class="col-sm-3 control-label">
-                                File
+                                选择文件
                             </label>
                             <div class="col-sm-8">
                                 <input type="file" id="file" name="file">
@@ -73,10 +79,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
-                            Cancel
+                            取消
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            Upload File
+                            上传
                         </button>
                     </div>
                 </form>

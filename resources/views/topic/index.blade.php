@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row page-title-row">
             <div class="col-md-6">
-                <h3>Topic Listing
+                <h3>课题列表
                 </h3>
             </div>
             <div class="col-md-6 text-right">
                 <a href="{{ route('topic.create') }}" class="btn btn-success btn-md">
-                    <i class="fa fa-plus-circle"></i>New Topic
+                    <i class="fa fa-plus-circle"></i>新建
                 </a>
             </div>
         </div>
@@ -23,9 +23,9 @@
                 <table id="courses-table" class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Number</th>
-                        <th data-sortable="false">Actions</th>
+                        <th>课题名称</th>
+                        <th>人数</th>
+                        <th data-sortable="false">操作</th>
                     </tr>
                     </thead>
                     <tbody>

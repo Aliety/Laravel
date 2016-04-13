@@ -31,8 +31,16 @@
                         <li><a href="{{ url('/admin/teacher') }}">教师管理</a></li>
                     </ul>
                 </li>
-                <li><a href="/admin/news">新闻</a></li>
-                <li><a href="/admin/notice">通知</a></li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        资讯 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('/admin/news') }}">新闻</a></li>
+                        <li><a href="{{ url('/admin/notice') }}">通知</a></li>
+                    </ul>
+                </li>
                 <li><a href="/admin/upload">文件管理</a></li>
                 <li><a href="/admin/topic">课题管理</a></li>
             </ul>

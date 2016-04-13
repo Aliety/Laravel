@@ -18,7 +18,7 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index');
 Route::get('/news', 'HomeController@news');
 
-Route::post('ajax', 'Topic\TopicSelectController@ajax');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +71,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/teacher/register', 'Teacher\AuthController@getRegister');
     Route::post('/teacher/register', 'Teacher\AuthController@postRegister');
     Route::get('/teacher/enter', 'TeacherController@enter');
+    Route::get('/teacher/home', 'TeacherController@information');
     Route::resource('teacher', 'TeacherController', ['except' => ['show']]);
     Route::get('topic/state/{id}', 'Topic\TopicController@state');
     Route::get('topic/active/{topic_id}/{user_id}', 'Topic\TopicController@active');
@@ -85,7 +86,12 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+    Route::get('login', 'Auth\AuthController@showLoginForm');
+    Route::post('login', 'Auth\AuthController@login');
+    Route::get('logout', 'Auth\AuthController@logout');
+    Route::get('password/reset', 'Auth\PasswordController@showResetForm');
+    Route::post('password/reset', 'Auth\PasswordController@reset');
+
     Route::get('user/enter', 'UserController@enter');
     Route::get('user/home', 'UserController@information');
     Route::resource('/user', 'UserController');
@@ -94,5 +100,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('user/topic/show', 'Topic\TopicSelectController@show');
     Route::get('user/task/show', 'TaskController@showTask');
     Route::delete('user/topic/delete', 'Topic\TopicSelectController@delete');
-
+    Route::post('user/topic/bread', 'Topic\TopicSelectController@bread');
 });

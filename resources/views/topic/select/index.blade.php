@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row page-title-row">
             <div class="col-md-6">
-                <h3>Topic Listing</h3>
+                <h3>课题列表</h3>
             </div>
         </div>
 
@@ -12,7 +12,8 @@
         @include('layouts.partials.success')
         @include('layouts.partials.msg')
 
-        <form class="form-inline" id="ajax-form" role="form" method="POST" action="{{ url('/ajax') }}">
+        <form class="form-inline" id="ajax-form" role="form" method="POST" action="{{ url('/user/topic/bread') }}">
+            {!! csrf_field() !!}
             <div class="form-group">
                 <select class="form-control" name="college" id="select1">
                     <option value="all">请选择学院</option>
@@ -33,7 +34,7 @@
                 <div class="col-md-10 col-md-offset-2">
                     <button id="ajax-btn" type="submit" class="btn btn-primary btn-md">
                         <i class="fa fa-disk-o"></i>
-                        Search
+                        查找
                     </button>
                 </div>
             </div>
@@ -45,22 +46,26 @@
             <table id="topics" class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Teacher</th>
-                    <th>Number</th>
-                    <th>Action</th>
+                    <th>课题名称</th>
+                    <th>学院</th>
+                    <th>年级</th>
+                    <th>教师</th>
+                    <th>可选人数</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody id="table-body">
                 @foreach ($datas as $data)
                     <tr>
                         <td>{{ $data->name }}</td>
+                        <td>{{ $data->college }}</td>
+                        <td>{{ $data->grade }}</td>
                         <td>{{ $data->teacher_name }}</td>
                         <td>{{ $data->number }}</td>
                         <td>
                             <button class="btn btn-primary btn-md" data-toggle="modal"
                                     data-target="#{{ $data->id }}">
-                                Choose
+                                选择
                             </button>
 
                             <div class="modal fade" id="{{ $data->id }}" data-id="{{ $data->id }}" tabindex="-1"
@@ -74,22 +79,22 @@
                                                 &times;
                                             </button>
                                             <h4 class="modal-title" id="myModalLabel">
-                                                Choose Topic
+                                                课题选择
                                             </h4>
                                         </div>
                                         <div class="modal-body">
-                                            Are you sure to choose the course {{ $data->name }} ?
+                                            确定选择 {{ $data->name }} ?
                                         </div>
                                         <div class="modal-footer">
                                             <form role="form" method="POST" action="{{ url('user/topic/confirm') }}">
                                                 <input type="hidden" name="id" value="{{ $data->id }}">
                                                 {!! csrf_field() !!}
                                                 <button type="submit" class="btn btn-primary">
-                                                    <i class="fa fa-floppy-o"></i>
-                                                    Choose
+                                                    <i class="fa fa-check"></i>
+                                                    确认
                                                 </button>
                                                 <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Cancle
+                                                        data-dismiss="modal">取消
                                                 </button>
                                             </form>
                                         </div>
@@ -103,26 +108,4 @@
             </table>
         </div>
     </div>
-@stop
-
-@section('scripts')
-    <script>
-        $(document).ready(function () {
-            $('#ajax-btn').click(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '/ajax',
-                    type: 'post',
-                    data: $('#ajax-form').serialize(),
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    },
-                    success: function (datas) {
-                        $('#table-body').html(datas);
-                    },
-                    dataType: 'json',
-                });
-            });
-        });
-    </script>
 @stop
