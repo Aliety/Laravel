@@ -24,7 +24,7 @@
                     <thead>
                     <tr>
                         <th>课题名称</th>
-                        <th>人数</th>
+                        <th>状态</th>
                         <th data-sortable="false">操作</th>
                     </tr>
                     </thead>
@@ -32,7 +32,7 @@
                     @foreach ($topics as $data)
                         <tr>
                             <td><a href="{{ route('topic.show', $data->id) }}">{{ $data->name }}</a></td>
-                            <td>{{ $data->number }}</td>
+                            <td>{{ $data->active ? '已审核' : '未审核' }}</td>
                             <td>
                                 <a href="{{ route('topic.edit', $data->id) }}" class="btn btn-md btn-info">
                                     <i class="fa fa-edit"></i>编辑

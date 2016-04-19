@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row page-title-row">
             <div class="col-md-6">
-                <h3>Topic Listing</h3>
+                <h3>成绩评定</h3>
             </div>
         </div>
 
@@ -32,10 +32,17 @@
                         <td>{{ $topic->user_name }}</td>
                         <td>{{ $topic->score }}</td>
                         <td>
-                            <button class="btn btn-primary btn-md" data-toggle="modal"
-                                    data-target="#{{ $topic->id }}">
-                                成绩评定
-                            </button>
+                            @if ($topic->active)
+                                <button class="btn btn-primary btn-md" data-toggle="modal"
+                                        data-target="#{{ $topic->id }}">
+                                    成绩评定
+                                </button>
+                            @else
+                                <button class="btn btn-primary btn-md" data-toggle="modal"
+                                        disabled="disabled" data-target="#{{ $topic->id }}">
+                                    成绩评定
+                                </button>
+                            @endif
                             <div class="modal fade" id="{{ $topic->id }}" data-id="{{ $topic->id }}" tabindex="-1"
                                  role="dialog"
                                  aria-labelledby="myModalLabel" aria-hidden="true">
@@ -52,7 +59,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form role="form" method="POST" action="{{ url('teacher/topic/score') }}"
-                                                class="form-horizontal">
+                                                  class="form-horizontal">
                                                 <input type="hidden" name="id" value="{{ $topic->id }}">
                                                 <input type="hidden" name="user_id" value="{{ $topic->user_id }}">
                                                 {!! csrf_field() !!}

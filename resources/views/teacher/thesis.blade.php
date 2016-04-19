@@ -78,14 +78,20 @@
                                                                            value="{{ $thesis['defense_time'] }}">
                                                                 </div>
                                                             </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="checkbox" name="check"> 审核通过
-                                                                </label>
+                                                            <div class="form-group">
+                                                                <div class="col-sm-offset-3 col-sm-6">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" name="check"> 请记住我
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <button type="submit" class="btn btn-success">
-                                                                确认
-                                                            </button>
+                                                            <div class="form-group">
+                                                                <div class="col-sm-offset-3 col-sm-6">
+                                                                    <button type="submit" class="btn btn-primary">确认</button>
+                                                                </div>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">

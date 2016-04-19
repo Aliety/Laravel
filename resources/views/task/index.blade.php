@@ -20,7 +20,7 @@
                     <tr>
                         <th>课题</th>
                         <th>学生</th>
-                        <th data-sortable="false">Actions</th>
+                        <th data-sortable="false">操作</th>
                     </tr>
                     </thead>
                     <tbody>

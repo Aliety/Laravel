@@ -109,7 +109,7 @@ class AdminController extends Controller
         $topics = Topic::all();
         foreach ($topics as $topic) {
             if ($topic->users()->first()) {
-                $topic['active'] = true;
+                $topic['check_active'] = true;
             }
         }
 
@@ -128,6 +128,14 @@ class AdminController extends Controller
         return view('admin.topic.index')->withUsers($users);
     }
 
+    public function topicCheck($id)
+    {
+        $topic = Topic::find($id);
+        $topic->active = true;
+        $topic->save();
+
+        return redirect()->back()->withSuccess("checked");
+    }
     public function topicDelete($id)
     {
         $topic = Topic::find($id);

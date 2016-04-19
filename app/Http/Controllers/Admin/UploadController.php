@@ -75,14 +75,16 @@ class UploadController extends Controller
     {
         $teacher = Auth::guard('teacher')->user();
         $theses = $teacher->theses;
-        foreach ($theses as $thesis) {
-            $userId = $thesis->user_id;
-            $user = User::find($userId);
-            $userName = $user->name;
-            $thesis['user_name'] = $userName;
+        foreach ($theses as $key => $thesis) {
+            if ($thesis->active) {
+                $userId = $thesis->user_id;
+                $user = User::find($userId);
+                $userName = $user->name;
+                $thesis['user_name'] = $userName;
+            } else
+                unset($theses[$key]);
         }
 
-        //return view('teacher.thesis')->with('theses', $theses);
         return view('teacher.thesis', compact('theses'));
     }
 

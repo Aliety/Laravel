@@ -94,6 +94,7 @@ class TopicController extends Controller
                     $topic['user_name'] = $user->name;
                     $topic['user_id'] = $user->id;
                     $topic['score'] = $user->pivot->score;
+                    $topic['active'] = true;
                 }
             }
         }

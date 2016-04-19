@@ -28,10 +28,10 @@ class TeacherController extends Controller
 
     public function index()
     {
-        $admin = Auth::guard('teacher')->user();
-        $admin['guard'] = 'teacher';
+        $teacher = Auth::guard('teacher')->user();
+        $teacher['guard'] = 'teacher';
 
-        return view('teacher.me.index', $admin);
+        return view('teacher.me.index', compact('teacher'));
     }
 
     public function edit($id)

@@ -21,6 +21,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/') }}">首页</a></li>
+                <li><a href="{{ url('/teacher/home') }}">资讯</a></li>
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                        aria-expanded="false">
@@ -43,6 +44,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ url('/teacher') }}"><i class="fa fa-btn fa-home"></i>个人中心</a></li>
+                        <li><a href="teacher/password/reset"><i class="fa fa-btn fa-random"></i>修改密码</a></li>
                         <li><a href="{{ url('/teacher/logout') }}"><i class="fa fa-btn fa-sign-out"></i>退出登录</a></li>
                     </ul>
                 </li>

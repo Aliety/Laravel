@@ -4,8 +4,7 @@
     <div class="container-fluid">
         <div class="row page-title-row">
             <div class="col-md-6">
-                <h3>Topic State
-                </h3>
+                <h3>选课名单</h3>
             </div>
         </div>
 

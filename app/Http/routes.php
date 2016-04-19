@@ -49,6 +49,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/user', 'AdminController@userIndex');
     Route::get('/admin/topic', 'AdminController@topicIndex');
     Route::get('/admin/topic/{id}', 'AdminController@topicShow');
+    Route::post('/admin/topic/{id}', 'AdminController@topicCheck');
     Route::delete('/admin/topic/user', 'AdminController@selectDelete');
     Route::delete('/admin/topic/{id}', 'AdminController@topicDelete');
     Route::get('/admin/teacher', 'AdminController@teacherIndex');
@@ -70,6 +71,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/teacher/logout', 'Teacher\AuthController@logout');
     Route::get('/teacher/register', 'Teacher\AuthController@getRegister');
     Route::post('/teacher/register', 'Teacher\AuthController@postRegister');
+    Route::get('/teacher/password/reset', 'Teacher\PasswordController@showResetForm');
+    Route::post('/teacher/password/reset', 'Teacher\PasswordController@reset');
     Route::get('/teacher/enter', 'TeacherController@enter');
     Route::get('/teacher/home', 'TeacherController@information');
     Route::resource('teacher', 'TeacherController', ['except' => ['show']]);
