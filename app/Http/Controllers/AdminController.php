@@ -50,7 +50,7 @@ class AdminController extends Controller
 
         $user = new User();
         $user->id = $request->input('id');
-        $user->email = $request->input('id') . '@hqu.com';
+        $user->email = $request->input('id') . '@hqu.edu.cn';
         $user->password = bcrypt($request->input('id'));
         $user->save();
 
@@ -65,7 +65,7 @@ class AdminController extends Controller
 
         $teacher = new Teacher();
         $teacher->id = $request->input('id');
-        $teacher->email = $request->input('id') . '@hqu.com';
+        $teacher->email = $request->input('id') . '@hqu.edu.cn';
         $teacher->password = bcrypt($request->input('id'));
         $teacher->save();
 

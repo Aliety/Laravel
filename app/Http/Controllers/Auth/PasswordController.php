@@ -27,12 +27,20 @@ class PasswordController extends Controller
      *
      * @return void
      */
+
+    protected $redirectPath = '/user/home';
+
     public function __construct()
     {
         $this->middleware('guest', ['except' => ['showResetForm', 'reset']]);
     }
 
-    public function reset(Request $request)
+    public function getEmail()
+    {
+        return view('auth.passwords.email');
+    }
+
+    public function newReset(Request $request)
     {
         $this->validate($request, [
             'password' => 'required|confirmed|min:6',
@@ -43,6 +51,5 @@ class PasswordController extends Controller
         $user->save();
 
         return redirect('/user/home')->withSuccess('password updated !');
-
     }
 }

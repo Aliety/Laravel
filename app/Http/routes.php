@@ -42,6 +42,7 @@ Route::group(['middleware' => 'web'], function () {
 Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/login', 'Admin\AuthController@getLogin');
     Route::post('/admin/login', 'Admin\AuthController@postLogin');
+    Route::get('/admin/logout', 'Admin\AuthController@logout');
     Route::get('/admin/register', 'Admin\AuthController@getRegister');
     Route::post('/admin/register', 'Admin\AuthController@postRegister');
     Route::get('/admin', 'AdminController@index');
@@ -92,8 +93,13 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('login', 'Auth\AuthController@showLoginForm');
     Route::post('login', 'Auth\AuthController@login');
     Route::get('logout', 'Auth\AuthController@logout');
-    Route::get('password/reset', 'Auth\PasswordController@showResetForm');
-    Route::post('password/reset', 'Auth\PasswordController@reset');
+    Route::get('password/new', 'Auth\PasswordController@showResetForm');
+    Route::post('password/new', 'Auth\PasswordController@newReset');
+
+    Route::get('password/email', 'Auth\PasswordController@getEmail');
+    Route::post('password/email', 'Auth\PasswordController@postEmail');
+    Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+    Route::post('password/reset', 'Auth\PasswordController@postReset');
 
     Route::get('user/enter', 'UserController@enter');
     Route::get('user/home', 'UserController@information');

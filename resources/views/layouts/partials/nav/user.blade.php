@@ -44,7 +44,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ url('/user') }}"><i class="fa fa-btn fa-home"></i>个人中心</a></li>
-                        <li><a href="/password/reset"><i class="fa fa-btn fa-random"></i>修改密码</a></li>
+                        <li><a href="/password/new"><i class="fa fa-btn fa-random"></i>修改密码</a></li>
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>退出登录</a></li>
                     </ul>
                 </li>

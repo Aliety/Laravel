@@ -22,11 +22,6 @@ class AuthController extends Controller
         $this->middleware('guest:teacher', ['except' => 'logout']);
     }
 
-    public function getRedirectTo()
-    {
-        return $this->redirectTo;
-    }
-
     protected function validator(array $data)
     {
         return Validator::make($data, [

@@ -49,7 +49,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">管理员</a></li>
                 <li>
-                    <a href="{{ url('/teacher/logout') }}">
+                    <a href="{{ url('/admin/logout') }}">
                         <i class="fa fa-btn fa-sign-out"></i>
                         退出登录
                     </a>

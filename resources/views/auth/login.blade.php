@@ -56,8 +56,9 @@
                                         <i class="fa fa-btn fa-sign-in"></i>登录
                                     </button>
 
-                                    <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your
-                                        Password?</a>
+                                    <a class="btn btn-link" href="{{ url('/password/email') }}">
+                                        忘记密码
+                                    </a>
                                 </div>
                             </div>
                         </form>
