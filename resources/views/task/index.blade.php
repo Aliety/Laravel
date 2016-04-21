@@ -27,7 +27,7 @@
                     @foreach ($topics as $data)
                         <tr>
                             <td><a href="{{ route('topic.show', $data->id) }}">{{ $data->name }}</a></td>
-                            <td>{{ $data->user_name }}</td>
+                            <td><a href="{{ url("/teacher/user/$data->user_id") }}">{{ $data->user_name }}</td>
                             <td>
                                 <a href="{{ route('task.show', $data->id) }}" class="btn btn-md btn-info">
                                     <i class="fa fa-edit"></i>查看任务

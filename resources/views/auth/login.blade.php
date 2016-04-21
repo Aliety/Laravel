@@ -5,7 +5,7 @@
     <header class="intro-header">
         <div class="container">
             <div class="intro-text">
-                <div class="intro-lead-in">学生登录</div>
+                <div class="intro-heading">学生登录</div>
                 <div class="panel panel-default">
                     <div class="panel-heading">登录系统</div>
                     <div class="panel-body">
@@ -41,7 +41,7 @@
                             </div>
 
                             <div class="form-group">
-                                <div class="col-md-6 col-md-offset-1">
+                                <div class="col-md-2 col-md-offset-3">
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" name="remember"> 记住我
@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="form-group">
-                                <div class="col-md-6 col-md-offset-2">
+                                <div class="col-md-6 control-label">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fa fa-btn fa-sign-in"></i>登录
                                     </button>

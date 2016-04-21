@@ -22,8 +22,8 @@
                 <tbody>
                 @foreach ($datas as $data)
                     <tr>
-                        <td>{{ $data->name }}</td>
-                        <td>{{ $data->teacher_name }}</td>
+                        <td><a href="{{ url("topic/$data->id") }}">{{ $data->name }}</td>
+                        <td><a href="{{ url("/user/teacher/$data->teacher_id") }}">{{ $data->teacher_name }}</td>
                         <td>
                             @if ($data->pivot->active)
                                 <button class="btn btn-success btn-md" disabled="disabled"

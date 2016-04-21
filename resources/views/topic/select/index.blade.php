@@ -57,10 +57,10 @@
                 <tbody id="table-body">
                 @foreach ($datas as $data)
                     <tr>
-                        <td>{{ $data->name }}</td>
+                        <td><a href="{{ url("topic/$data->id") }}">{{ $data->name }}</td>
                         <td>{{ $data->college }}</td>
                         <td>{{ $data->grade }}</td>
-                        <td>{{ $data->teacher_name }}</td>
+                        <td><a href="{{ url("/user/teacher/$data->teacher_id") }}">{{ $data->teacher_name }}</td>
                         <td>{{ $data->number }}</td>
                         <td>
                             <button class="btn btn-primary btn-md" data-toggle="modal"

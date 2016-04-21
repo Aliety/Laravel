@@ -77,7 +77,7 @@
                     @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td><a href="{{ url("/admin/user/$user->id") }}">{{ $user->name }}</td>
                             <td>{{ $user->college }}</td>
                             <td>{{ $user->grade }}</td>
                             <td>

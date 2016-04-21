@@ -20,6 +20,7 @@ class TaskController extends Controller
             foreach ($users as $user) {
                 if ($user->pivot->active) {
                     $topic['user_name'] = $user->name;
+                    $topic['user_id'] = $user->id;
                 }
             }
             if (empty($topic['user_name'])) {

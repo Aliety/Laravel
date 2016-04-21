@@ -27,17 +27,28 @@ class PasswordController extends Controller
      *
      * @return void
      */
+
+    protected $guard = 'teacher';
+    protected $broker = 'teachers';
+    protected $resetView = 'teacher.passwords.reset';
+    protected $redirectPath = '/teacher/home';
+
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['showResetForm', 'reset']]);
+        $this->middleware('guest', ['except' => 'showResetForm']);
     }
 
-    public function showResetForm(Request $request, $token = null)
+    public function getEmail()
     {
         return view('teacher.passwords.email');
     }
 
-    public function reset(Request $request)
+    public function showForm()
+    {
+        return view('teacher.passwords.new');
+    }
+
+    public function newReset(Request $request)
     {
         $this->validate($request, [
             'password' => 'required|confirmed|min:6',
@@ -48,6 +59,5 @@ class PasswordController extends Controller
         $teacher->save();
 
         return redirect('/teacher/home')->withSuccess('password updated !');
-
     }
 }

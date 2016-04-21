@@ -76,7 +76,7 @@
                     @foreach ($teachers as $teacher)
                         <tr>
                             <td>{{ $teacher->id }}</td>
-                            <td>{{ $teacher->name }}</td>
+                            <td><a href="{{ url("/admin/teacher/$teacher->id") }}">{{ $teacher->name }}</td>
                             <td>{{ $teacher->college }}</td>
                             <td>{{ $teacher->title }}</td>
                             <td>

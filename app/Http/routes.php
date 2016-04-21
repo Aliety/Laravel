@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index');
 Route::get('/news', 'HomeController@news');
-
+Route::get('/home/topic/{id}', 'HomeController@topic');
 
 
 /*
@@ -43,8 +43,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/admin/login', 'Admin\AuthController@getLogin');
     Route::post('/admin/login', 'Admin\AuthController@postLogin');
     Route::get('/admin/logout', 'Admin\AuthController@logout');
-    Route::get('/admin/register', 'Admin\AuthController@getRegister');
-    Route::post('/admin/register', 'Admin\AuthController@postRegister');
+
+    Route::get('/admin/password/email', 'Admin\PasswordController@getEmail');
+    Route::post('/admin/password/email', 'Admin\PasswordController@postEmail');
+    Route::get('/admin/password/reset/{token}', 'Admin\PasswordController@getReset');
+    Route::post('/admin/password/reset', 'Admin\PasswordController@postReset');
+
     Route::get('/admin', 'AdminController@index');
     Route::get('/admin/enter', 'AdminController@enter');
     Route::get('/admin/user', 'AdminController@userIndex');
@@ -58,6 +62,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/admin/teacher/create', 'AdminController@teacherAdd');
     Route::delete('/admin/user/{id}', 'AdminController@userDelete');
     Route::delete('/admin/teacher/{id}', 'AdminController@teacherDelete');
+    Route::get('admin/user/{id}', 'AdminController@user');
+    Route::get('admin/teacher/{id}', 'AdminController@teacher');
     Route::get('admin/upload', 'Admin\UploadController@index');
     Route::resource('/admin/news', 'NewsController');
     Route::resource('/admin/notice', 'NoticeController');
@@ -70,10 +76,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/teacher/login', 'Teacher\AuthController@getLogin');
     Route::post('/teacher/login', 'Teacher\AuthController@postLogin');
     Route::get('/teacher/logout', 'Teacher\AuthController@logout');
-    Route::get('/teacher/register', 'Teacher\AuthController@getRegister');
-    Route::post('/teacher/register', 'Teacher\AuthController@postRegister');
-    Route::get('/teacher/password/reset', 'Teacher\PasswordController@showResetForm');
-    Route::post('/teacher/password/reset', 'Teacher\PasswordController@reset');
+    Route::get('/teacher/password/new', 'Teacher\PasswordController@showForm');
+    Route::post('/teacher/password/new', 'Teacher\PasswordController@newReset');
+
+    Route::get('/teacher/password/email', 'Teacher\PasswordController@getEmail');
+    Route::post('/teacher/password/email', 'Teacher\PasswordController@postEmail');
+    Route::get('/teacher/password/reset/{token}', 'Teacher\PasswordController@getReset');
+    Route::post('/teacher/password/reset', 'Teacher\PasswordController@postReset');
+
     Route::get('/teacher/enter', 'TeacherController@enter');
     Route::get('/teacher/home', 'TeacherController@information');
     Route::resource('teacher', 'TeacherController', ['except' => ['show']]);
@@ -87,6 +97,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/teacher/topic/score', 'Topic\TopicController@showScore');
     Route::post('/teacher/topic/score', 'Topic\TopicController@confirmScore');
     Route::resource('task', 'TaskController');
+    Route::get('teacher/user/{id}', 'TeacherController@user');
 });
 
 Route::group(['middleware' => 'web'], function () {
@@ -103,6 +114,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('user/enter', 'UserController@enter');
     Route::get('user/home', 'UserController@information');
+    Route::get('user/teacher/{id}', 'UserController@teacher');
     Route::resource('/user', 'UserController');
     Route::get('user/topic/select', 'Topic\TopicSelectController@index');
     Route::post('user/topic/confirm', 'Topic\TopicSelectController@confirm');

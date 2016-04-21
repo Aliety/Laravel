@@ -151,4 +151,18 @@ class AdminController extends Controller
 
         return redirect()->back()->withSuccess('deleted');
     }
+
+    public function user($id)
+    {
+        $user = User::find($id);
+
+        return view('admin.info.user', compact('user'));
+    }
+
+    public function teacher($id)
+    {
+        $teacher = Teacher::find($id);
+
+        return view('admin.info.teacher', compact('teacher'));
+    }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\TeacherUpdateRequest;
 use App\Http\Requests;
 use App\News;
 use App\Notice;
+use App\User;
 
 class TeacherController extends Controller
 {
@@ -63,5 +64,12 @@ class TeacherController extends Controller
         $notices = Notice::paginate(3);
 
         return view('home', compact('news', 'notices'));
+    }
+
+    public function user($id)
+    {
+        $user = User::find($id);
+
+        return view('teacher.info.user', compact('user'));
     }
 }

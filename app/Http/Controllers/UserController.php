@@ -9,6 +9,7 @@ use Auth;
 use App\Http\Requests;
 use App\Notice;
 use App\News;
+use App\Teacher;
 
 class UserController extends Controller
 {
@@ -64,5 +65,12 @@ class UserController extends Controller
         $notices = Notice::paginate(3);
 
         return view('home', compact('news', 'notices'));
+    }
+
+    public function teacher($id)
+    {
+        $teacher = Teacher::find($id);
+
+        return view('auth.info.teacher', compact('teacher'));
     }
 }

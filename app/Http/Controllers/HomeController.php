@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\News;
 use App\Notice;
+use App\User;
+use App\Teacher;
+use App\Topic;
 
 class HomeController extends Controller
 {
@@ -39,5 +42,19 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         return view('admin.news.index', compact('news'));
+    }
+
+    public function topic($id)
+    {
+        $topic = Topic::find($id);
+        $topic['teacher'] = Teacher::find($topic->teacher_id)->name;
+        return view('topic.show', $topic);
+    }
+
+    public function teacher($id)
+    {
+        $teacher = Teacher::find($id);
+
+        return view('teacher.me.index', compact('teacher'));
     }
 }

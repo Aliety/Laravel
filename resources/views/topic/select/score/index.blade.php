@@ -28,8 +28,8 @@
                 <tbody id="table-body">
                 @foreach ($topics as $topic)
                     <tr>
-                        <td>{{ $topic->name }}</td>
-                        <td>{{ $topic->user_name }}</td>
+                        <td><a href="{{ url("topic/$topic->id") }}">{{ $topic->name }}</td>
+                        <td><a href="{{ url("/teacher/user/$topic->user_id") }}">{{ $topic->user_name }}</td>
                         <td>{{ $topic->score }}</td>
                         <td>
                             @if ($topic->active)

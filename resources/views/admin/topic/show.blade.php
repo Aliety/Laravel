@@ -28,7 +28,7 @@
                     <tbody>
                     @foreach ($topics as $topic)
                         <tr>
-                            <td>{{ $topic->name }}</td>
+                            <td><a href="{{ url("/topic/$topic->id") }}">{{ $topic->name }}</td>
                             <td>{{ $topic->college }}</td>
                             <td>{{ $topic->grade }}</td>
                             <td>{{ $topic->active ? '已通过' : '未审核' }}</td>

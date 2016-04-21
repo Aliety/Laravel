@@ -26,8 +26,8 @@
                     <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td>{{ $topic->name }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td><a href="{{ url("topic/$topic->id") }}">{{ $topic->name }}</td>
+                            <td><a href="{{ url("/teacher/user/$user->id") }}">{{ $user->name }}</td>
                             <td>{{ $topic->number }}</td>
                             <td>
                                 @if ($user->pivot->active)

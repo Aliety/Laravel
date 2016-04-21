@@ -122,6 +122,20 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
+        'teachers' => [
+            'provider' => 'teachers',
+            'email' => 'teacher.emails.password',
+            'table' => 'teacher_password_resets',
+            'expire' => 60,
+        ],
+
+        'admins' => [
+            'provider' => 'admins',
+            'email' => 'admin.emails.password',
+            'table' => 'admin_password_resets',
+            'expire' => 60,
+        ],
     ],
 
 ];

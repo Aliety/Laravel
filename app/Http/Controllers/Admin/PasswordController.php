@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -28,33 +28,18 @@ class PasswordController extends Controller
      * @return void
      */
 
-    protected $redirectPath = '/user/home';
+    protected $guard = 'admin';
+    protected $broker = 'admins';
+    protected $resetView = 'admin.passwords.reset';
+    protected $redirectPath = '/admin';
 
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['showResetForm', 'reset']]);
+        $this->middleware('guest', ['except' => 'showResetForm']);
     }
 
     public function getEmail()
     {
-        return view('auth.passwords.email');
-    }
-
-    public function showResetForm()
-    {
-        return view('auth.passwords.new');
-    }
-
-    public function newReset(Request $request)
-    {
-        $this->validate($request, [
-            'password' => 'required|confirmed|min:6',
-        ]);
-        $password = $request->input('password');
-        $user = Auth::user();
-        $user->password = bcrypt($password);
-        $user->save();
-
-        return redirect('/user/home')->withSuccess('password updated !');
+        return view('admin.passwords.email');
     }
 }

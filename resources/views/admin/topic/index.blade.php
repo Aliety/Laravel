@@ -27,8 +27,8 @@
                     <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td>{{ $user->topic_name }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td><a href="{{ url("/topic/$user->topic_id") }}">{{ $user->topic_name }}</td>
+                            <td><a href="{{ url("/admin/user/$user->id") }}">{{ $user->name }}</td>
                             <td>{{ $user->college }}</td>
                             <td>{{ $user->grade }}</td>
                             <td>
