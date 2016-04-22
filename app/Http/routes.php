@@ -19,7 +19,10 @@ Route::get('/home', 'HomeController@index');
 Route::get('/news', 'HomeController@news');
 Route::get('/home/topic/{id}', 'HomeController@topic');
 
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/message', 'MessageController@index');
 
+});
 /*
 |--------------------------------------------------------------------------
 | Application Routes
