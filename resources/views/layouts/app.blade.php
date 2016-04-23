@@ -8,6 +8,7 @@
     <title>Laravel</title>
 
     <link href="/assets/css/glhqu.css" rel="stylesheet">
+    <script type="text/javascript" src="/assets/js/jquery.js"></script>
 
     @yield('styles')
 
@@ -40,7 +41,9 @@
     @yield('page-header')
     @yield('content')
 
+    <script src="/assets/js/jquery.js"></script>
     <script src="/assets/js/glhqu.js"></script>
+
 
     @yield('scripts')
 </body>

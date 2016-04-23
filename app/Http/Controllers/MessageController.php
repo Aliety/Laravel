@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Auth;
 use App\Message;
 use DB;
+use App\Http\Requests\CreateMessageRequest;
 
 class MessageController extends Controller
 {
@@ -17,19 +18,21 @@ class MessageController extends Controller
      *
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
-        $messages = [];
-        $userID = Auth::user()->id;
-        $messageID = DB::table('message_link')->where('rec_id', $userID)->value('id');
+        $userID = isset($request->user()->id) ? $request->user()->id : $request->user('teacher')->id;
 
-        if ($messageID) {
-            $messages = Message::find('rec_id', $messageID)->get();
-            return view('message.index', compact('messages'));
+        $messages = DB::table('message_link')->where('rec_id', $userID)->get();
+
+        foreach ($messages as $message) {
+            $data = Message::find($message->id);
+            $message->title = $data->title;
+            $message->content = $data->content;
         }
 
         return view('message.index', compact('messages'));
     }
+
     /**
      * Shows a message thread.
      *
@@ -53,6 +56,7 @@ class MessageController extends Controller
 
         return view('messenger.show', compact('thread', 'users'));
     }
+
     /**
      * Creates a new message thread.
      *
@@ -60,80 +64,79 @@ class MessageController extends Controller
      */
     public function create()
     {
-        $users = User::where('id', '!=', Auth::id())->get();
-        return view('messenger.create', compact('users'));
+        return view('message.create');
     }
+
+    public function sent(Request $request)
+    {
+        $userID = isset($request->user()->id) ? $request->user()->id : $request->user('teacher')->id;
+        $messages = DB::table('message_link')->where('send_id', $userID)->get();
+
+        foreach ($messages as $message) {
+            $data = Message::find($message->id);
+            $message->title = $data->title;
+            $message->content = $data->content;
+            $message->message_status = $data->status;
+        }
+
+        return view('message.sent', compact('messages'));
+    }
+
     /**
      * Stores a new message thread.
      *
      * @return mixed
      */
-    public function store(Request $request)
+
+    public function store(CreateMessageRequest $request)
     {
-        $input = $request->all();
-        $thread = Thread::create(
+        $userID = isset($request->user()->id) ? $request->user()->id : $request->user('teacher')->id;
+        $message = Message::create(
             [
-                'subject' => $input['subject'],
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'created_at' => Carbon::now(),
+                'status' => 0,
             ]
         );
-        // Message
-        Message::create(
+
+        $messageLink = DB::table('message_link')->insert(
             [
-                'thread_id' => $thread->id,
-                'user_id'   => Auth::user()->id,
-                'body'      => $input['message'],
+                'send_id' => $userID,
+                'rec_id' => $request->input('rec_id'),
+                'message_id' => $message->id,
+                'created_at' => Carbon::now(),
+                'status' => 0,
             ]
         );
-        // Sender
-        Participant::create(
-            [
-                'thread_id' => $thread->id,
-                'user_id'   => Auth::user()->id,
-                'last_read' => new Carbon,
-            ]
-        );
-        // Recipients
-        if (array_key_exists('recipients', $input)) {
-            $thread->addParticipants($input['recipients']);
-        }
-        return redirect('messages');
+
+        return redirect('/message/sent')->withSuccess('sent!');
     }
+
+    public function ajax(Request $request)
+    {
+        $id = $request->input('message_id');
+        if ($request->ajax()) {
+            $messages = DB::table('message_link')->where('id', $id)->get();
+            return response()->json(['name' => $id, 'state' => '已读']);
+        } else
+            return response()->json(['msg' => 'false']);
+    }
+
     /**
      * Adds a new message to a current thread.
      *
      * @param $id
      * @return mixed
      */
-    public function update($id)
+
+    public function destroy($id)
     {
-        try {
-            $thread = Thread::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-            return redirect('messages');
-        }
-        $thread->activateAllParticipants();
-        // Message
-        Message::create(
-            [
-                'thread_id' => $thread->id,
-                'user_id'   => Auth::id(),
-                'body'      => Input::get('message'),
-            ]
-        );
-        // Add replier as a participant
-        $participant = Participant::firstOrCreate(
-            [
-                'thread_id' => $thread->id,
-                'user_id'   => Auth::user()->id,
-            ]
-        );
-        $participant->last_read = new Carbon;
-        $participant->save();
-        // Recipients
-        if (Input::has('recipients')) {
-            $thread->addParticipants(Input::get('recipients'));
-        }
-        return redirect('messages/' . $id);
+        $message = Message::find($id);
+        $message->status = 1;
+        $message->save();
+
+        return redirect()->back()->withSuccess("deleted");
     }
+
 }

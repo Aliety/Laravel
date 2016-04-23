@@ -9,55 +9,31 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#">收件夹</a></li>
-                    <li><a href="message/sent">已发送</a></li>
-                    <li><a href="message/create">写信</a></li>
+                    <li><a href="/message">收件夹</a></li>
+                    <li class="active"><a href="#">已发送</a></li>
+                    <li><a href="/message/create">写信</a></li>
                 </ul>
             </div>
-
             <table class="table">
                 <th>主题</th>
-                <th>发件人</th>
-                <th>发送时间</th>
-                <th>状态</th>
+                <th>收件人ID</th>
+                <th>时间</th>
                 <th>操作</th>
                 @foreach($messages as $message)
                     <tr>
-                        <td>{{ $message->title }}</td>
-                        <td>{{ $message->send_id }}</td>
-                        <td>{{ $message->created_at }}</td>
-                        <td id="{{ $message->id.'status' }}">{{ ($message->status == 0) ? '未读' : '已读' }}</td>
-                        <td>
-                            <div class="row">
+                        @if ($message->message_status == 0)
+                            <td>{{ $message->title }}</td>
+                            <td>{{ $message->rec_id }}</td>
+                            <td>{{ $message->created_at }}</td>
+                            <td>
                                 <button class="btn btn-primary btn-xs" data-toggle="modal"
-                                        id="{{ $message->id.'ajax' }}" data-target="#{{ $message->id }}">
+                                        data-target="#{{ $message->id }}">
                                     <i class="fa fa-eye"></i>查看
                                 </button>
-
-                                <script>
-                                    $(document).ready(function () {
-                                        $('#{{ $message->id.'ajax' }}').click(function (e) {
-                                            e.preventDefault();
-                                            $.ajax({
-                                                url: '/ajax',
-                                                type: 'post',
-                                                data: { message_id : "{{ $message->id }}"},
-                                                headers: {
-                                                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                                                },
-                                                success: function (data) {
-                                                    $('#{{ $message->id.'status' }}').text(data.state);
-                                                    $('div#{{ $message->id.'model' }}').modal();
-                                                },
-                                                dataType: 'json',
-                                            });
-                                        });
-                                    });
-                                </script>
-
-                                <div class="modal fade" id="{{ $message->id.'model' }}" data-id="{{ $message->id }}"
+                                <div class="modal fade" id="{{ $message->id }}" data-id="{{ $message->id }}"
                                      tabindex="-1"
-                                     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                     role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -127,8 +103,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </table>

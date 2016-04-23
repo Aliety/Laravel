@@ -14,13 +14,18 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/test', function () {
+    return view('thesis.edit');
+});
 
 Route::get('/home', 'HomeController@index');
 Route::get('/news', 'HomeController@news');
 Route::get('/home/topic/{id}', 'HomeController@topic');
+Route::post('/ajax', 'MessageController@ajax');
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/message', 'MessageController@index');
+    Route::get('message/sent', 'MessageController@sent');
+    Route::resource('message', 'MessageController');
 
 });
 /*

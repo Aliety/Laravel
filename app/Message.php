@@ -9,4 +9,6 @@ class Message extends Model
     protected $fillable = [
         'title', 'content', 'type'
     ];
+
+    public $timestamps = false;
 }
