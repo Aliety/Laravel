@@ -25,6 +25,7 @@ Route::post('/ajax', 'MessageController@ajax');
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('message/sent', 'MessageController@sent');
+    Route::delete('message/linkDelete/{id}', 'MessageController@linkDelete');
     Route::resource('message', 'MessageController');
 
 });

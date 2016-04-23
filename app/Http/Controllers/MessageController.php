@@ -22,7 +22,7 @@ class MessageController extends Controller
     {
         $userID = isset($request->user()->id) ? $request->user()->id : $request->user('teacher')->id;
 
-        $messages = DB::table('message_link')->where('rec_id', $userID)->get();
+        $messages = DB::table('message_link')->where('rec_id', $userID)->where('status', '<>', 2)->get();
 
         foreach ($messages as $message) {
             $data = Message::find($message->id);
@@ -31,30 +31,6 @@ class MessageController extends Controller
         }
 
         return view('message.index', compact('messages'));
-    }
-
-    /**
-     * Shows a message thread.
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function show($id)
-    {
-        try {
-            $thread = Thread::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-            return redirect('messages');
-        }
-        // show current user in list if not a current participant
-        // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
-        // don't show the current user in list
-        $userId = Auth::user()->id;
-        $users = User::whereNotIn('id', $thread->participantsUserIds($userId))->get();
-        $thread->markAsRead($userId);
-
-        return view('messenger.show', compact('thread', 'users'));
     }
 
     /**
@@ -117,7 +93,7 @@ class MessageController extends Controller
     {
         $id = $request->input('message_id');
         if ($request->ajax()) {
-            $messages = DB::table('message_link')->where('id', $id)->get();
+            DB::table('message_link')->where('id', $id)->update(['status' => 1]);
             return response()->json(['name' => $id, 'state' => '已读']);
         } else
             return response()->json(['msg' => 'false']);
@@ -135,6 +111,13 @@ class MessageController extends Controller
         $message = Message::find($id);
         $message->status = 1;
         $message->save();
+
+        return redirect()->back()->withSuccess("deleted");
+    }
+
+    public function linkDelete($id)
+    {
+        DB::table('message_link')->where('id', $id)->update(['status' => 2]);
 
         return redirect()->back()->withSuccess("deleted");
     }

@@ -110,8 +110,7 @@
                                             </div>
                                             <div>
                                                 <div class="modal-footer">
-                                                    <form method="POST"
-                                                          action="{{ route('message.destroy', $message->id) }}">
+                                                    <form method="POST" action="{{ url("/message/linkDelete/$message->id") }}">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <button type="button" class="btn btn-default"
