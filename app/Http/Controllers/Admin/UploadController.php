@@ -13,6 +13,7 @@ use App\Topic;
 use App\Thesis;
 use Illuminate\Support\Facades\Storage;
 use App\User;
+use App\Report;
 
 class UploadController extends Controller
 {
@@ -34,7 +35,7 @@ class UploadController extends Controller
 
     public function showFile(Request $request)
     {
-        $file = ['active' => '', 'defense_time' => '', 'topic' => '', 'name' => '', 'path' => ''];
+        $file = ['active' => '', 'updated_at' => '', 'topic' => '', 'name' => '', 'path' => ''];
         $user = Auth::user();
         foreach ($user->topics as $topic) {
             if ($topic->pivot->active) {
@@ -47,16 +48,16 @@ class UploadController extends Controller
             return view('auth.upload')->with('file', $file);
         }
 
-        if (! $user->thesis) {
-            $folder = $user->grade .'/'.$user->college.'/'.'毕业论文';
+        if (!$user->thesis) {
+            $folder = $user->grade . '/' . $user->college . '/' . '毕业论文';
             $thesis = new Thesis(['save_folder' => $folder, 'teacher_id' => $teacherId]);
             $user->thesis()->save($thesis);
         }
 
         $folder = isset($folder) ? $folder : $user->thesis->save_folder;
-        if (! empty($user->thesis->save_name)) {
+        if (!empty($user->thesis->save_name)) {
             $filename = $user->thesis->save_name;
-            $path = $folder.'/'.$filename;
+            $path = $folder . '/' . $filename;
             $result = $this->disk->exists($path);
 
             if ($result) {
@@ -65,10 +66,51 @@ class UploadController extends Controller
         }
 
         $file['active'] = $user->thesis->active;
-        $file['defense_time'] = $user->thesis->defense_time;
+        $file['updated_at'] = $user->thesis->updated_at;
+        $file['advice'] = $user->thesis->advice;
         $file['name'] = isset($name) ? $name : '未上传';
         $file['path'] = isset($path) ? $path : 'null';
         return view('auth.upload')->with('file', $file);
+    }
+
+    public function showReport(Request $request)
+    {
+        $report = ['advice' => '', 'topic' => '', 'name' => '', 'path' => '', 'active'];
+        $user = Auth::user();
+        foreach ($user->topics as $topic) {
+            if ($topic->pivot->active) {
+                $topicName = Topic::find($topic->id)->name;
+                $teacherId = Topic::find($topic->id)->teacher_id;
+            }
+        }
+        $report['topic'] = isset($topicName) ? $topicName : '未确认选课';
+        if (empty($topicName)) {
+            return view('auth.report')->with('report', $report);
+        }
+
+        if (!$user->reports) {
+            $folder = $user->grade . '/' . $user->college . '/' . '开题报告';
+            $report = new Report(['save_folder' => $folder, 'teacher_id' => $teacherId]);
+            $user->reports()->save($report);
+        }
+
+        $folder = isset($folder) ? $folder : $user->reports->save_folder;
+        if (!empty($user->reports->save_name)) {
+            $filename = $user->reports->save_name;
+            $path = $folder . '/' . $filename;
+            $result = $this->disk->exists($path);
+
+            if ($result) {
+                $name = $user->reports->original_name;
+            }
+        }
+
+        $report['active'] = $user->reports->active;
+        $report['updated_at'] = $user->reports->updated_at;
+        $report['advice'] = $user->reports->advice;
+        $report['name'] = isset($name) ? $name : '未上传';
+        $report['path'] = isset($path) ? $path : 'null';
+        return view('auth.report')->with('report', $report);
     }
 
     public function showThesis()
@@ -88,10 +130,24 @@ class UploadController extends Controller
         return view('teacher.thesis', compact('theses'));
     }
 
+    public function showTeacherReport()
+    {
+        $teacher = Auth::guard('teacher')->user();
+        $reports = $teacher->reports;
+        foreach ($reports as $key => $report) {
+            $userId = $report->user_id;
+            $user = User::find($userId);
+            $userName = $user->name;
+            $report['user_name'] = $userName;
+        }
+
+        return view('teacher.report', compact('reports'));
+    }
+
     public function createFolder(UploadNewFolderRequest $request)
     {
         $new_folder = $request->get('new_folder');
-        $folder = $request->get('folder').'/'.$new_folder;
+        $folder = $request->get('folder') . '/' . $new_folder;
 
         $result = $this->manager->createDirectory($folder);
 
@@ -99,14 +155,14 @@ class UploadController extends Controller
             return redirect()->back()->withSuccess("Folder '$new_folder' create");
         }
 
-        $error = $result ? : "An error occurred creating directory";
+        $error = $result ?: "An error occurred creating directory";
         return redirect()->back()->withErrors([$error]);
     }
 
     public function deleteFile(Request $request)
     {
         $del_file = $request->get('del_file');
-        $path = $request->get('folder').'/'.$del_file;
+        $path = $request->get('folder') . '/' . $del_file;
 
         $result = $this->manager->deleteFile($path);
 
@@ -114,14 +170,14 @@ class UploadController extends Controller
             return redirect()->back()->withSuccess("File '$del_file' deleted");
         }
 
-        $error = $result ? : "An error occurred deleting file.";
+        $error = $result ?: "An error occurred deleting file.";
         return redirect()->back()->withErrors([$error]);
     }
 
     public function deleteFolder(Request $request)
     {
         $del_folder = $request->get('del_folder');
-        $folder = $request->get('folder').'/'.$del_folder;
+        $folder = $request->get('folder') . '/' . $del_folder;
 
         $result = $this->manager->deleteDirectory($folder);
 
@@ -129,7 +185,7 @@ class UploadController extends Controller
             return redirect()->back()->withSuccess("Folder '$del_folder' deleted");
         }
 
-        $error = $result ? : "An error occurred deleting directory.";
+        $error = $result ?: "An error occurred deleting directory.";
         return redirect()->back()->withErrors([$error]);
     }
 
@@ -142,8 +198,8 @@ class UploadController extends Controller
         $path = str_finish($folder, '/') . $original_name;
         $path_parts = pathinfo($path);
         $extension = $path_parts['extension'];
-        $save_name = $user->id.'.'.$extension;
-        $save_path = $folder.'/'.$save_name;
+        $save_name = $user->id . '.' . $extension;
+        $save_path = $folder . '/' . $save_name;
         $content = File::get($file['tmp_name']);
         $result = $this->manager->saveFile($save_path, $content);
 
@@ -154,14 +210,40 @@ class UploadController extends Controller
             return redirect()->back()->withSuccess("File '$original_name' uploaded");
         }
 
-        $error = $result ? : "An error occurred uploading file.";
+        $error = $result ?: "An error occurred uploading file.";
+
+        return redirect()->back()->withErrors([$error]);
+    }
+
+    public function uploadReport(UploadFileRequest $request)
+    {
+        $user = Auth::user();
+        $file = $_FILES['file'];
+        $original_name = $file['name'];
+        $folder = $user->reports->save_folder;
+        $path = str_finish($folder, '/') . $original_name;
+        $path_parts = pathinfo($path);
+        $extension = $path_parts['extension'];
+        $save_name = $user->id . '.' . $extension;
+        $save_path = $folder . '/' . $save_name;
+        $content = File::get($file['tmp_name']);
+        $result = $this->manager->saveFile($save_path, $content);
+
+        if ($result === true) {
+            $user->reports->original_name = $original_name;
+            $user->reports->save_name = $save_name;
+            $user->reports->save();
+            return redirect()->back()->withSuccess("File '$original_name' uploaded");
+        }
+
+        $error = $result ?: "An error occurred uploading file.";
 
         return redirect()->back()->withErrors([$error]);
     }
 
     public function downloadFile(Request $request)
     {
-        $path = public_path('uploads'.'/'.$request->get('path'));
+        $path = public_path('uploads' . '/' . $request->get('path'));
 
         return response()->download($path);
     }

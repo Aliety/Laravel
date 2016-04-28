@@ -25,4 +25,9 @@ class Teacher extends Authenticatable
     {
         return $this->hasMany('App\Thesis');
     }
+
+    public function reports()
+    {
+        return $this->hasMany('App\Report');
+    }
 }

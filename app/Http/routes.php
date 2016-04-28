@@ -45,7 +45,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/topic/confirm', 'Topic\TopicSelectController@confirm');
     Route::get('user/topic/show', 'Topic\TopicSelectController@show');
     Route::get('/upload/file', 'Admin\UploadController@showFile');
+    Route::get('/upload/report', 'Admin\UploadController@showReport');
     Route::post('/upload/file', 'Admin\UploadController@uploadFile');
+    Route::post('/upload/report', 'Admin\UploadController@uploadReport');
 });
 
 Route::group(['middleware' => ['web']], function () {
@@ -95,14 +97,18 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/teacher/enter', 'TeacherController@enter');
     Route::get('/teacher/home', 'TeacherController@information');
+    Route::get('/teacher/check', 'TeacherController@showCheck');
+    Route::post('/teacher/check/{id}', 'TeacherController@storeCheck');
     Route::resource('teacher', 'TeacherController', ['except' => ['show']]);
     Route::get('topic/state/{id}', 'Topic\TopicController@state');
     Route::get('topic/active/{topic_id}/{user_id}', 'Topic\TopicController@active');
     Route::resource('topic', 'Topic\TopicController');
     Route::get('/teacher/thesis', 'Admin\UploadController@showThesis');
+    Route::get('/teacher/report', 'Admin\UploadController@showTeacherReport');
     Route::post('/file/download', 'Admin\UploadController@downloadFile');
     Route::get('/thesis/check', 'ThesisController@edit');
     Route::post('/thesis/check/{id}', 'ThesisController@update');
+    Route::post('/report/check/{id}', 'ThesisController@updateReport');
     Route::get('/teacher/topic/score', 'Topic\TopicController@showScore');
     Route::post('/teacher/topic/score', 'Topic\TopicController@confirmScore');
     Route::resource('task', 'TaskController');
@@ -129,6 +135,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('user/topic/confirm', 'Topic\TopicSelectController@confirm');
     Route::get('user/topic/show', 'Topic\TopicSelectController@show');
     Route::get('user/task/show', 'TaskController@showTask');
+    Route::get('/user/check/show', 'UserController@showCheck');
     Route::delete('user/topic/delete', 'Topic\TopicSelectController@delete');
     Route::post('user/topic/bread', 'Topic\TopicSelectController@bread');
 });

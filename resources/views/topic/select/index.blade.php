@@ -16,7 +16,7 @@
             {!! csrf_field() !!}
             <div class="form-group">
                 <select class="form-control" name="college" id="select1">
-                    <option value="all">请选择学院</option>
+                    <option value="0">请选择学院</option>
                     <option value="信息学院">信息学院</option>
                     <option value="计算机学院">计算机学院</option>
                 </select>
@@ -24,7 +24,7 @@
 
             <div class="form-group">
                 <select class="form-control" name="grade" id="select2">
-                    <option value="all">请选择年级</option>
+                    <option value="0">请选择年级</option>
                     <option value="2012级">2012级</option>
                     <option value="2012级">2013级</option>
                 </select>

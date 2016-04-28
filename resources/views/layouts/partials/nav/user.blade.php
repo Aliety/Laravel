@@ -32,7 +32,17 @@
                         <li><a href="{{ url('user/topic/select') }}">选题系统</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ url('upload/file') }}">论文报告</a></li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        论文报告 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('upload/report') }}">开题报告</a></li>
+                        <li><a href="{{ url('upload/file') }}">论文上传</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url('/user/check/show') }}">中期检查</a></li>
                 <li><a href="/user/task/show">任务书</a></li>
             </ul>
 

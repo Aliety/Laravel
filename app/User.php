@@ -36,4 +36,9 @@ class User extends Authenticatable
         return $this->hasOne('App\Thesis');
     }
 
+    public function reports()
+    {
+        return $this->hasOne('App\Report');
+    }
+
 }

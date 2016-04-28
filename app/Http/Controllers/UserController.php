@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Notice;
 use App\News;
 use App\Teacher;
+use DB;
 
 class UserController extends Controller
 {
@@ -72,5 +73,68 @@ class UserController extends Controller
         $teacher = Teacher::find($id);
 
         return view('auth.info.teacher', compact('teacher'));
+    }
+
+    public function showCheck()
+    {
+        $user = Auth::user();
+
+        foreach ($user->topics as $topic) {
+            if ($topic->pivot->active == true) {
+                $id = $topic->id;
+                $name = $topic->name;
+                break;
+            }
+        }
+
+        $result = DB::table('topic_check')->where('topic_id', $id)->first();
+        $result->name = $name;
+
+        switch ($result->report_status) {
+            case 1:
+                $result->report_status = '一般';
+                break;
+            case 0:
+                $result->report_status = '差';
+                break;
+            default:
+                $result->report_status = '好';
+        }
+
+        switch ($result->topic_status) {
+            case 1:
+                $result->topic_status = '初稿';
+                break;
+            case 0:
+                $result->topic_status = '未开始';
+                break;
+            default:
+                $result->topic_status = '基本完成';
+        }
+
+        switch ($result->teach_status) {
+            case 1:
+                $result->teach_status = '一般';
+                break;
+            case 0:
+                $result->teach_status = '差';
+                break;
+            default:
+                $result->teach_status = '好';
+        }
+
+        switch ($result->total) {
+            case 1:
+                $result->total = '一般';
+                break;
+            case 0:
+                $result->total = '差';
+                break;
+            default:
+                $result->total = '好';
+        }
+
+
+        return view('auth.check', compact('result'));
     }
 }

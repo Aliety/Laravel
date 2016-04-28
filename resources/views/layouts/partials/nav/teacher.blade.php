@@ -32,7 +32,17 @@
                         <li><a href="{{ url('/teacher/topic/score') }}">成绩评定</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ url('/teacher/thesis') }}">论文</a></li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        论文报告 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('/teacher/report') }}">开题报告</a></li>
+                        <li><a href="{{ url('/teacher/thesis') }}">毕业论文</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ url('/teacher/check') }}">中期检查</a></li>
                 <li><a href="{{ route('task.index') }}">任务书</a></li>
             </ul>
 

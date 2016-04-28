@@ -39,6 +39,10 @@ class TopicSelectController extends Controller
     {
         $college = $request->input('college');
         $grade = $request->input('grade');
+
+        if ($college == '0' || $grade == '0') {
+            return redirect()->back()->withMsg('请正确选择');
+        }
         $topics = Topic::where('college', $college)->where('grade', $grade)->get();
 
         return view('topic.select.index', ['datas' => $topics]);

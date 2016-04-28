@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="pull-left">上传论文</h3>
+                <h3 class="pull-left">上传开题报告</h3>
             </div>
         </div>
 
@@ -18,7 +18,7 @@
                     <thead>
                     <tr>
                         <th>课题</th>
-                        <th>论文</th>
+                        <th>报告</th>
                         <th>状态</th>
                         <th>更新时间</th>
                         <th data-sortable="false">操作</th>
@@ -26,12 +26,12 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>{{ $file['topic'] }}</td>
-                        <td>{{ $file['name'] }}</td>
-                        <td>{{ $file['active'] ? '已通过' : '未审核' }}</td>
-                        <td>{{ $file['updated_at'] }}</td>
+                        <td>{{ $report['topic'] }}</td>
+                        <td>{{ $report['name'] }}</td>
+                        <td>{{ $report['active'] ? '已通过' : '未通过' }}</td>
+                        <td>{{ $report['updated_at'] }}</td>
                         <td>
-                            @if ( $file['topic'] == '未确认选课')
+                            @if ( $report['topic'] == '未确认选课')
                                 <button class="btn btn-success btn-md" disabled="disabled">
                                     上传
                                 </button>
@@ -56,7 +56,7 @@
                                                 <h4 class="modal-title">修改建议</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>{{ $file['advice'] }}</p>
+                                                <p>{{ $report['advice'] }}</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default"
@@ -79,14 +79,14 @@
     <div class="modal fade" id="modal-file-upload">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="/upload/file" class="form-horizontal" enctype="multipart/form-data">
+                <form method="POST" action="/upload/report" class="form-horizontal" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="folder" value="{{  $file['name'] }}">
+                    <input type="hidden" name="folder" value="{{  $report['name'] }}">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">
                             x
                         </button>
-                        <h4 class="modal-title">上传论文</h4>
+                        <h4 class="modal-title">上传开题报告</h4>
                     </div>
                     <div class="modal-body">
                         <p class="lead">
