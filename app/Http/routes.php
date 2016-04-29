@@ -81,6 +81,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::delete('admin/upload/file', 'Admin\UploadController@deleteFile');
     Route::post('admin/upload/folder', 'Admin\UploadController@createFolder');
     Route::delete('admin/upload/folder', 'Admin\UploadController@deleteFolder');
+
+    Route::get('admin/defense/show', 'AdminController@showDefense');
+    Route::get('admin/defense/check', 'AdminController@defenseCheck');
+    Route::get('admin/defense/check/create', 'AdminController@createCheck');
+    Route::post('admin/defense/check/{id}', 'AdminController@storeCheck');
+    Route::get('admin/defense/group', 'AdminController@defenseGroup');
 });
 
 Route::group(['middleware' => ['web']], function () {
@@ -113,6 +119,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/teacher/topic/score', 'Topic\TopicController@confirmScore');
     Route::resource('task', 'TaskController');
     Route::get('teacher/user/{id}', 'TeacherController@user');
+
+    Route::get('teacher/defense/index', 'TeacherController@indexDefense');
+    Route::post('teacher/defense/check/{id}', 'TeacherController@checkDefense');
 });
 
 Route::group(['middleware' => 'web'], function () {

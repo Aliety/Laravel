@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Topic;
 
+use App\Defense;
 use Illuminate\Http\Request;
 use App\Teacher;
 use App\Topic;
@@ -77,9 +78,16 @@ class TopicController extends Controller
 
         foreach ($user->topics as $topic) {
             if ($topic->pivot->topic_id == $topic_id) {
+                $teacher = $topic->teacher;
                 $user->topics()->attach($topic_id, ['active' => 1]);
+                $defense = new Defense();
+                $status = $topic->defense()->save($defense);
+                if ($status) {
+                    $status->teachers()->save($teacher, ['role' => 0]);
+                }
             }
         }
+
 
         return back()->withSuccess('success');
     }

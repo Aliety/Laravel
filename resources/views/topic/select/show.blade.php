@@ -59,7 +59,7 @@
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                                     <button type="submit" class="btn btn-primary">
-                                                        <i class="fa fa-check"></i>\
+                                                        <i class="fa fa-check"></i>
                                                         确认
                                                     </button>
                                                     <button type="button" class="btn btn-default"

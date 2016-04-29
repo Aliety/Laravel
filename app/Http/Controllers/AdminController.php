@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\User;
 use App\Teacher;
 use App\Topic;
+use App\Defense;
 
 class AdminController extends Controller
 {
@@ -136,6 +137,7 @@ class AdminController extends Controller
 
         return redirect()->back()->withSuccess("checked");
     }
+
     public function topicDelete($id)
     {
         $topic = Topic::find($id);
@@ -165,4 +167,76 @@ class AdminController extends Controller
 
         return view('admin.info.teacher', compact('teacher'));
     }
+
+    public function showDefense()
+    {
+        $topics = Topic::all();
+
+        foreach ($topics as $topic) {
+
+        }
+        $topic_count = $topics->count();
+        $teacher_count = Teacher::all()->count();
+
+        return view('admin.defense.index', compact('topics', 'topic_count', 'teacher_count'));
+
+    }
+
+    public function defenseCheck()
+    {
+        $defenses = Defense::all();
+        foreach ($defenses as $defense) {
+            $topic = $defense->topic;
+            $defense->topic_name = $topic->name;
+            $defense->teacher_name = Teacher::find($topic->teacher_id)->name;
+            foreach ($topic->users as $user) {
+                if ($user->pivot->active) {
+                    $defense->user_name = $user->name;
+                }
+            }
+            foreach ($defense->teachers as $teacher) {
+                if ($teacher->pivot->role == 1) {
+                    $defense->check_name = $teacher->name;
+                }
+            }
+        }
+
+        return view('admin.defense.check', compact('defenses'));
+    }
+
+    public function createCheck()
+    {
+        $teachers = Teacher::all();
+
+        foreach ($teachers as $key => $teacher) {
+            foreach($teacher->defenses as $defense) {
+                if ($defense->pivot->role == 1) {
+                    unset($teachers[$key]);
+                }
+            }
+        }
+
+        return view('admin.defense.create', compact('teachers'));
+    }
+
+    public function storeCheck(Request $request, $id)
+    {
+        $teachers = Teacher::all();
+
+        foreach ($teachers as $key => $teacher) {
+            foreach($teacher->defenses as $defense) {
+                if ($defense->pivot->role == 1) {
+                    unset($teachers[$key]);
+                }
+            }
+        }
+
+        return view('admin.defense.create', compact('teachers'));
+    }
+
+    public function defenseGroup()
+    {
+
+    }
+
 }

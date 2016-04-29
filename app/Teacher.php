@@ -30,4 +30,9 @@ class Teacher extends Authenticatable
     {
         return $this->hasMany('App\Report');
     }
+
+    public function defenses()
+    {
+        return $this->belongsToMany('App\Defense')->withPivot('advice', 'score', 'role');
+    }
 }

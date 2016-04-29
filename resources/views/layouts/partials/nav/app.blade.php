@@ -43,6 +43,17 @@
                 </li>
                 <li><a href="/admin/upload">文件管理</a></li>
                 <li><a href="/admin/topic">课题管理</a></li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        论文答辩 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/defense/show">答辩信息</a></li>
+                        <li><a href="{{ url('/admin/defense/check') }}">答辩审核</a></li>
+                        <li><a href="{{ url('/admin/defense/group') }}">答辩小组</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->

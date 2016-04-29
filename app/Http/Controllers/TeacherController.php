@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Defense;
 use Illuminate\Http\Request;
 use Auth;
 use App\Teacher;
@@ -11,6 +12,7 @@ use App\News;
 use App\Notice;
 use App\User;
 use DB;
+use App\Topic;
 
 class TeacherController extends Controller
 {
@@ -122,6 +124,39 @@ class TeacherController extends Controller
         }
 
         return redirect()->back()->withSuccess("success");
+    }
+
+    public function indexDefense()
+    {
+        $teacher = Auth::guard('teacher')->user();
+        $defenses = $teacher->defenses;
+
+        foreach ($defenses as $defense) {
+            if ($defense->pivot->role == 0) {
+                $topic = Topic::find($defense->topic_id);
+                $defense->topic_name = $topic->name;
+                foreach ($topic->users as $user) {
+                    if ($user->pivot->active) {
+                        $defense->user_name = $user->name;
+                    }
+                }
+            }
+        }
+        //dd($defenses);
+        return view('teacher.defense.index', compact('defenses'));
+    }
+
+    public function checkDefense(Request $request, $id)
+    {
+        $teacherID = Auth::guard('teacher')->user()->id;
+        $defense = Defense::find($id);
+
+        $defense->teachers()->where('teacher_id', $teacherID)->update([
+            'advice' => $request->input('advice'),
+            'score' => $request->input('score')
+        ]);
+
+        return redirect()->back()->withSuccess('succeed');
     }
 
 }

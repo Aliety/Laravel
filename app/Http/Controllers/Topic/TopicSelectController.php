@@ -16,8 +16,10 @@ class TopicSelectController extends Controller
     {
         $topics = Topic::all();
         foreach ($topics as $topic) {
-            $topic['teacher_name'] = Teacher::where('id', $topic->teacher_id)->first()->name;
-            $datas[] = $topic;
+            if ($topic->active) {
+                $topic['teacher_name'] = Teacher::where('id', $topic->teacher_id)->first()->name;
+                $datas[] = $topic;
+            }
         }
 
         return view('topic.select.index', ['datas' => $datas]);

@@ -29,4 +29,9 @@ class Topic extends Model
     {
         return $this->hasMany('App\Task');
     }
+
+    public function defense()
+    {
+        return $this->hasOne('App\Defense');
+    }
 }

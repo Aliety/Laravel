@@ -71,10 +71,10 @@
                                         </div>
                                     </div>
                                     <button class="btn btn-primary btn-md" data-toggle="modal"
-                                            data-target="#topicCheck">
+                                            data-target="#topicCheck{{ $topic->id }}">
                                         审核
                                     </button>
-                                    <div class="modal fade" id="topicCheck" tabIndex="-1">
+                                    <div class="modal fade" id="topicCheck{{ $topic->id }}" tabIndex="-1">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">

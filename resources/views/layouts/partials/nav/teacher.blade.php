@@ -44,6 +44,7 @@
                 </li>
                 <li><a href="{{ url('/teacher/check') }}">中期检查</a></li>
                 <li><a href="{{ route('task.index') }}">任务书</a></li>
+                <li><a href="{{ url('teacher/defense/index') }}">论文答辩</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
