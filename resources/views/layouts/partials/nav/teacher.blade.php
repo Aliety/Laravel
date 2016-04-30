@@ -44,7 +44,17 @@
                 </li>
                 <li><a href="{{ url('/teacher/check') }}">中期检查</a></li>
                 <li><a href="{{ route('task.index') }}">任务书</a></li>
-                <li><a href="{{ url('teacher/defense/index') }}">论文答辩</a></li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        论文答辩 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('/teacher/defense/index') }}">我的答辩</a></li>
+                        <li><a href="{{ url('/teacher/defense/show') }}">我的审核</a></li>
+                        <li><a href="{{ url('/teacher/defense/group') }}">我的小组</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->

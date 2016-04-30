@@ -16,23 +16,23 @@
                 <table id="tags-table" class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>课题</th>
-                        <th>内容</th>
-                        <th>时间</th>
-                        <th data-sortable="false">操作</th>
+                        <th>课题名称</th>
+                        <th>导师</th>
+                        <th>答辩学生</th>
+                        <th>答辩地点</th>
+                        <th>答辩时间</th>
+                        <th>答辩成绩</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($topics as $topic)
                         <tr>
                             <td>{{ $topic->name }}</td>
-                            <td>{{ $topic->content }}</td>
-                            <td>{{ $topic->created_at }}</td>
-                            <td>
-                                <a href="/admin/news/{{ $topic->id }}/edit" class="btn btn-xs btn-info">
-                                    <i class="fa fa-edit"></i> 编辑
-                                </a>
-                            </td>
+                            <td>{{ $topic->teacher_name }}</td>
+                            <td>{{ $topic->user_name }}</td>
+                            <td>{{ $topic->defense_place }}</td>
+                            <td>{{ $topic->defense_time }}</td>
+                            <td>{{ $topic->defense_score }}</td>
                         </tr>
                     @endforeach
                     </tbody>

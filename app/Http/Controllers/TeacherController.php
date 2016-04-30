@@ -128,11 +128,21 @@ class TeacherController extends Controller
 
     public function indexDefense()
     {
-        $teacher = Auth::guard('teacher')->user();
-        $defenses = $teacher->defenses;
+        $role = Auth::guard('teacher')->user();
+        $defenses = $role->defenses;
 
-        foreach ($defenses as $defense) {
+        foreach ($defenses as $key => $defense) {
             if ($defense->pivot->role == 0) {
+                foreach ($defense->teachers as $teacher) {
+                    if ($teacher->pivot->role == 1) {
+                        $defense->check_advice = $teacher->pivot->advice;
+                        $defense->check_score = $teacher->pivot->score;
+                    }
+                    if ($teacher->pivot->role == 2) {
+                        $defense->group_advice = $teacher->pivot->advice;
+                        $defense->group_score = $teacher->pivot->score;
+                    }
+                }
                 $topic = Topic::find($defense->topic_id);
                 $defense->topic_name = $topic->name;
                 foreach ($topic->users as $user) {
@@ -140,6 +150,8 @@ class TeacherController extends Controller
                         $defense->user_name = $user->name;
                     }
                 }
+            } else {
+                unset($defenses[$key]);
             }
         }
         //dd($defenses);
@@ -147,6 +159,102 @@ class TeacherController extends Controller
     }
 
     public function checkDefense(Request $request, $id)
+    {
+        $teacherID = Auth::guard('teacher')->user()->id;
+        $defense = Defense::find($id);
+        $defense->score = $request->input('defense_score');
+        $defense->save();
+
+        $defense->teachers()->where('teacher_id', $teacherID)->update([
+            'advice' => $request->input('advice'),
+            'score' => $request->input('score')
+        ]);
+
+        return redirect()->back()->withSuccess('succeed');
+    }
+
+    public function showDefense()
+    {
+        $teacher = Auth::guard('teacher')->user();
+        $defenses = $teacher->defenses;
+
+        foreach ($defenses as $key => $defense) {
+            if ($defense->pivot->role == 1) {
+                foreach ($defense->teachers as $teacher) {
+                    if ($teacher->pivot->role == 0) {
+                        $defense->teach_advice = $teacher->pivot->advice;
+                        $defense->teach_score = $teacher->pivot->score;
+                    }
+                    if ($teacher->pivot->role == 2) {
+                        $defense->group_advice = $teacher->pivot->advice;
+                        $defense->group_score = $teacher->pivot->score;
+                    }
+                }
+                $topic = Topic::find($defense->topic_id);
+                $defense->topic_name = $topic->name;
+                foreach ($topic->users as $user) {
+                    if ($user->pivot->active) {
+                        $defense->user_name = $user->name;
+                    }
+                }
+            } else {
+                unset($defenses[$key]);
+            }
+        }
+        //dd($defenses);
+        return view('teacher.defense.show', compact('defenses'));
+    }
+
+    public function storeDefense(Request $request, $id)
+    {
+        $teacherID = Auth::guard('teacher')->user()->id;
+        $defense = Defense::find($id);
+        $defense->time = $request->input('time');
+        $defense->place = $request->input('place');
+        $defense->status = $request->input('status');
+        $defense->save();
+
+        $defense->teachers()->where('teacher_id', $teacherID)->update([
+            'advice' => $request->input('advice'),
+            'score' => $request->input('score')
+        ]);
+
+        return redirect()->back()->withSuccess('succeed');
+    }
+
+    public function groupDefense()
+    {
+        $teacher = Auth::guard('teacher')->user();
+        $defenses = $teacher->defenses;
+
+        foreach ($defenses as $key => $defense) {
+            if ($defense->pivot->role == 2) {
+                foreach ($defense->teachers as $teacher) {
+                    if ($teacher->pivot->role == 0) {
+                        $defense->teach_advice = $teacher->pivot->advice;
+                        $defense->teach_score = $teacher->pivot->score;
+                    }
+                    if ($teacher->pivot->role == 1) {
+                        $defense->check_advice = $teacher->pivot->advice;
+                        $defense->check_score = $teacher->pivot->score;
+                    }
+                }
+                $topic = Topic::find($defense->topic_id);
+                $defense->topic_name = $topic->name;
+                foreach ($topic->users as $user) {
+                    if ($user->pivot->active) {
+                        $defense->user_name = $user->name;
+                    }
+                }
+            } else {
+                unset($defenses[$key]);
+            }
+        }
+        //dd($defenses);
+        return view('teacher.defense.group', compact('defenses'));
+    }
+
+    public function storeGroup(Request $request, $id)
     {
         $teacherID = Auth::guard('teacher')->user()->id;
         $defense = Defense::find($id);
@@ -158,5 +266,4 @@ class TeacherController extends Controller
 
         return redirect()->back()->withSuccess('succeed');
     }
-
 }

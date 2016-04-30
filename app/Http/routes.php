@@ -85,7 +85,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('admin/defense/show', 'AdminController@showDefense');
     Route::get('admin/defense/check', 'AdminController@defenseCheck');
     Route::get('admin/defense/check/create', 'AdminController@createCheck');
+    Route::get('admin/defense/group/create', 'AdminController@createGroup');
     Route::post('admin/defense/check/{id}', 'AdminController@storeCheck');
+    Route::post('admin/defense/group/{id}', 'AdminController@storeGroup');
     Route::get('admin/defense/group', 'AdminController@defenseGroup');
 });
 
@@ -122,6 +124,10 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('teacher/defense/index', 'TeacherController@indexDefense');
     Route::post('teacher/defense/check/{id}', 'TeacherController@checkDefense');
+    Route::get('teacher/defense/show', 'TeacherController@showDefense');
+    Route::post('teacher/defense/store/{id}', 'TeacherController@storeDefense');
+    Route::get('teacher/defense/group', 'TeacherController@groupDefense');
+    Route::post('teacher/defense/group/{id}', 'TeacherController@storeGroup');
 });
 
 Route::group(['middleware' => 'web'], function () {
@@ -144,6 +150,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('user/topic/confirm', 'Topic\TopicSelectController@confirm');
     Route::get('user/topic/show', 'Topic\TopicSelectController@show');
     Route::get('user/task/show', 'TaskController@showTask');
+    Route::get('user/topic/score', 'Topic\TopicController@userScore');
+    Route::get('user/defense/show', 'UserController@showDefense');
     Route::get('/user/check/show', 'UserController@showCheck');
     Route::delete('user/topic/delete', 'Topic\TopicSelectController@delete');
     Route::post('user/topic/bread', 'Topic\TopicSelectController@bread');

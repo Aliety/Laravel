@@ -29,6 +29,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url('user/topic/show') }}">我的选题</a></li>
+                        <li><a href="{{ url('user/topic/score') }}">查看成绩</a></li>
                         <li><a href="{{ url('user/topic/select') }}">选题系统</a></li>
                     </ul>
                 </li>
@@ -44,6 +45,7 @@
                 </li>
                 <li><a href="{{ url('/user/check/show') }}">中期检查</a></li>
                 <li><a href="/user/task/show">任务书</a></li>
+                <li><a href="/user/defense/show">论文答辩</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

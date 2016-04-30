@@ -38,6 +38,10 @@
                                     <button class="btn btn-default btn-md" disabled="disabled">
                                         确认选课
                                     </button>
+                                @elseif ($user->topic_state)
+                                    <button class="btn btn-default btn-md" disabled="disabled">
+                                        确认选课
+                                    </button>
                                 @else
                                     <a href="{{ url('/topic/active', [$topic->id, $user->id]) }}"
                                        class="btn btn-md btn-info">

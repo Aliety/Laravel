@@ -30,7 +30,21 @@
                     <tr>
                         <td><a href="{{ url("topic/$topic->id") }}">{{ $topic->name }}</td>
                         <td><a href="{{ url("/teacher/user/$topic->user_id") }}">{{ $topic->user_name }}</td>
-                        <td>{{ $topic->score }}</td>
+                        <td>
+                            @if ($topic->score == 5)
+                                优秀
+                            @elseif ($topic->score == 4)
+                                良好
+                            @elseif ($topic->score == 3)
+                                中等
+                            @elseif ($topic->score == 2)
+                                及格
+                            @elseif ($topic->score ==1)
+                                不及格
+                            @else
+                                暂无
+                            @endif
+                        </td>
                         <td>
                             @if ($topic->active)
                                 <button class="btn btn-primary btn-md" data-toggle="modal"
@@ -63,25 +77,80 @@
                                                 <input type="hidden" name="id" value="{{ $topic->id }}">
                                                 <input type="hidden" name="user_id" value="{{ $topic->user_id }}">
                                                 {!! csrf_field() !!}
+
                                                 <div class="form-group">
-                                                    <label for="score" class="col-sm-2 control-label">
-                                                        成绩分数
+                                                    <label for="score" class="col-sm-3 control-label">
+                                                        等级评定
                                                     </label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="col-sm-6 form-control" id="score"
-                                                               name="score" value="{{ $topic->score }}">
+                                                    <div class="col-sm-6">
+                                                        @if ($topic->score == 5)
+                                                            <select class="form-control" name="score"
+                                                                    id="score">
+                                                                <option selected="selected" value="5">优秀
+                                                                </option>
+                                                                <option value="4">良好</option>
+                                                                <option value="3">中等</option>
+                                                                <option value="2">及格</option>
+                                                                <option value="1">不及格</option>
+                                                            </select>
+                                                        @elseif ($topic->score == 4)
+                                                            <select class="form-control" name="score"
+                                                                    id="score">
+                                                                <option value="5">优秀</option>
+                                                                <option selected="selected" value="4">良好
+                                                                </option>
+                                                                <option value="3">中等</option>
+                                                                <option value="2">及格</option>
+                                                                <option value="1">不及格</option>
+                                                            </select>
+                                                        @elseif ($topic->score == 3)
+                                                            <select class="form-control" name="score"
+                                                                    id="score">
+                                                                <option value="5">优秀</option>
+                                                                <option value="4">良好</option>
+                                                                <option selected="selected" value="3">中等
+                                                                </option>
+                                                                <option value="2">及格</option>
+                                                                <option value="1">不及格</option>
+                                                            </select>
+                                                        @elseif ($topic->score == 2)
+                                                            <select class="form-control" name="score"
+                                                                    id="score">
+                                                                <option value="5">优秀</option>
+                                                                <option value="4">良好</option>
+                                                                <option value="3">中等</option>
+                                                                <option selected="selected" value="2">及格
+                                                                </option>
+                                                                <option value="1">不及格</option>
+                                                            </select>
+                                                        @else
+                                                            <select class="form-control" name="score"
+                                                                    id="score">
+                                                                <option value="5">优秀</option>
+                                                                <option value="4">良好</option>
+                                                                <option value="3">中等</option>
+                                                                <option value="2">及格</option>
+                                                                <option selected="selected" value="1">不及格
+                                                                </option>
+                                                            </select>
+                                                        @endif
                                                     </div>
-                                                    <button type="submit" class="col-sm-2 btn btn-primary">
-                                                        <i class="fa fa-check"></i>
-                                                        确认
-                                                    </button>
                                                 </div>
+                                                <hr/>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-3 col-sm-6">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            确认
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+                                                    </div>
+                                                </div>
+
                                             </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">取消
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="major" class="col-md-3 control-label">自动化</label>
+                                <label for="major" class="col-md-3 control-label">专业</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" name="major" id="major" value="{{ $major }}">
                                 </div>

@@ -173,8 +173,18 @@ class AdminController extends Controller
         $topics = Topic::all();
 
         foreach ($topics as $topic) {
-
+            $topic->teacher_name = Teacher::find($topic->teacher_id)->name;
+            if ($topic->defense) {
+                $topic->defense_time = $topic->defense->time;
+                $topic->defense_place = $topic->defense->place;
+                $topic->defense_score = $topic->defense->score;
+            }
+            foreach($topic->users as $user)
+                if ($user->pivot->active) {
+                    $topic->user_name = $user->name;
+                }
         }
+
         $topic_count = $topics->count();
         $teacher_count = Teacher::all()->count();
 
@@ -209,9 +219,13 @@ class AdminController extends Controller
         $teachers = Teacher::all();
 
         foreach ($teachers as $key => $teacher) {
-            foreach($teacher->defenses as $defense) {
-                if ($defense->pivot->role == 1) {
-                    unset($teachers[$key]);
+            if ($teacher->defenses == null) {
+                continue;
+            } else {
+                foreach ($teacher->defenses as $defense) {
+                    if ($defense->pivot->role == 1 || $defense->pivot->role == 2) {
+                        unset($teachers[$key]);
+                    }
                 }
             }
         }
@@ -221,22 +235,89 @@ class AdminController extends Controller
 
     public function storeCheck(Request $request, $id)
     {
-        $teachers = Teacher::all();
+        $role = Teacher::find($id);
+        $defenses = Defense::all();
 
-        foreach ($teachers as $key => $teacher) {
-            foreach($teacher->defenses as $defense) {
-                if ($defense->pivot->role == 1) {
-                    unset($teachers[$key]);
+        foreach ($defenses as $key => $defense) {
+            foreach ($defense->teachers as $teacher) {
+                if ($teacher->id == $id) {
+                    unset($defenses[$key]);
                 }
             }
         }
 
-        return view('admin.defense.create', compact('teachers'));
+        $defenses = $defenses->take($request->input('num'));
+        //dd($defenses);
+
+        foreach ($defenses as $defense) {
+            $defense->teachers()->save($role, ['role' => 1]);
+        };
+
+        return redirect()->back()->withSuccess("success");
     }
 
     public function defenseGroup()
     {
+        $defenses = Defense::all();
+        foreach ($defenses as $defense) {
+            $topic = $defense->topic;
+            $defense->topic_name = $topic->name;
+            $defense->teacher_name = Teacher::find($topic->teacher_id)->name;
+            foreach ($topic->users as $user) {
+                if ($user->pivot->active) {
+                    $defense->user_name = $user->name;
+                }
+            }
+            foreach ($defense->teachers as $teacher) {
+                if ($teacher->pivot->role == 2) {
+                    $defense->group_name = $teacher->name;
+                }
+            }
+        }
 
+        return view('admin.defense.group', compact('defenses'));
+    }
+
+    public function createGroup()
+    {
+        $teachers = Teacher::all();
+
+        foreach ($teachers as $key => $teacher) {
+            if ($teacher->defenses == null) {
+                continue;
+            } else {
+                foreach ($teacher->defenses as $defense) {
+                    if ($defense->pivot->role == 2 || $defense->pivot->role == 1) {
+                        unset($teachers[$key]);
+                    }
+                }
+            }
+        }
+
+        return view('admin.defense.new', compact('teachers'));
+    }
+
+    public function storeGroup(Request $request, $id)
+    {
+        $role = Teacher::find($id);
+        $defenses = Defense::all();
+
+        foreach ($defenses as $key => $defense) {
+            foreach ($defense->teachers as $teacher) {
+                if ($teacher->id == $id) {
+                    unset($defenses[$key]);
+                }
+            }
+        }
+
+        $defenses = $defenses->take($request->input('num'));
+        //dd($defenses);
+
+        foreach ($defenses as $defense) {
+            $defense->teachers()->save($role, ['role' => 2]);
+        };
+
+        return redirect()->back()->withSuccess("success");
     }
 
 }

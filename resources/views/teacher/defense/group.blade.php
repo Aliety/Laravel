@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <h1 class="text-center">我的答辩</h1>
+            <h1 class="text-center">我的小组</h1>
         </div>
         <hr/>
 
@@ -21,7 +21,6 @@
                         <th>时间</th>
                         <th>地点</th>
                         <th>状态</th>
-                        <th>成绩</th>
                         <th data-sortable="false">操作</th>
                     </tr>
                     </thead>
@@ -39,21 +38,6 @@
                                     二次答辩
                                 @else
                                     已通过
-                                @endif
-                            </td>
-                            <td>
-                                @if ($defense->score == 5)
-                                    优秀
-                                @elseif ($defense->score == 4)
-                                    良好
-                                @elseif ($defense->score == 3)
-                                    中等
-                                @elseif ($defense->score == 2)
-                                    及格
-                                @elseif ($defense->score ==1)
-                                    不及格
-                                @else
-                                    暂无
                                 @endif
                             </td>
                             <td>
@@ -77,6 +61,27 @@
                                                         <div class="row">
                                                             <div class="col-md-6 text-center">
                                                                 <p>
+                                                                    导师意见: {{ ($defense->teach_advice) ?: '' }}
+                                                                </p>
+                                                                <p>
+                                                                    导师成绩:
+                                                                    @if ($defense->teach_score == 5)
+                                                                        优秀
+                                                                    @elseif ($defense->teach_score == 4)
+                                                                        良好
+                                                                    @elseif ($defense->teach_score == 3)
+                                                                        中等
+                                                                    @elseif ($defense->teach_score == 2)
+                                                                        及格
+                                                                    @elseif ($defense->teach_score ==1)
+                                                                        不及格
+                                                                    @else
+                                                                        暂无
+                                                                    @endif
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-6 text-center">
+                                                                <p>
                                                                     审核意见: {{ ($defense->check_advice) ?: '' }}
                                                                 </p>
                                                                 <p>
@@ -96,44 +101,23 @@
                                                                     @endif
                                                                 </p>
                                                             </div>
-                                                            <div class="col-md-6 text-center">
-                                                                <p>
-                                                                    小组意见: {{ ($defense->group_advice) ?: '' }}
-                                                                </p>
-                                                                <p>
-                                                                    小组成绩:
-                                                                    @if ($defense->group_score == 5)
-                                                                        优秀
-                                                                    @elseif ($defense->group_score == 4)
-                                                                        良好
-                                                                    @elseif ($defense->group_score == 3)
-                                                                        中等
-                                                                    @elseif ($defense->group_score == 2)
-                                                                        及格
-                                                                    @elseif ($defense->group_score ==1)
-                                                                        不及格
-                                                                    @else
-                                                                        暂无
-                                                                    @endif
-                                                                </p>
-                                                            </div>
                                                         </div>
                                                         <hr/>
                                                         <div class="text-center">
                                                             <p>我的评价</p>
                                                         </div>
                                                         <form method="POST"
-                                                              action='{{ url("/teacher/defense/check/$defense->id") }}'
+                                                              action='{{ url("/teacher/defense/group/$defense->id") }}'
                                                               class="form-horizontal">
                                                             <input type="hidden" name="_token"
                                                                    value="{{ csrf_token() }}">
 
                                                             <div class="form-group">
                                                                 <label for="score" class="col-sm-3 control-label">
-                                                                    我的成绩
+                                                                    等级评定
                                                                 </label>
                                                                 <div class="col-sm-6">
-                                                                    @if ($defense->pivot->role == 0 && $defense->pivot->score == 5)
+                                                                    @if ($defense->pivot->role == 2 && $defense->pivot->score == 5)
                                                                         <select class="form-control" name="score"
                                                                                 id="score">
                                                                             <option selected="selected" value="5">优秀
@@ -143,7 +127,7 @@
                                                                             <option value="2">及格</option>
                                                                             <option value="1">不及格</option>
                                                                         </select>
-                                                                    @elseif ($defense->pivot->role == 0 && $defense->pivot->score == 4)
+                                                                    @elseif ($defense->pivot->role == 2 && $defense->pivot->score == 4)
                                                                         <select class="form-control" name="score"
                                                                                 id="score">
                                                                             <option value="5">优秀</option>
@@ -153,7 +137,7 @@
                                                                             <option value="2">及格</option>
                                                                             <option value="1">不及格</option>
                                                                         </select>
-                                                                    @elseif ($defense->pivot->role == 0 && $defense->pivot->score == 3)
+                                                                    @elseif ($defense->pivot->role == 2 && $defense->pivot->score == 3)
                                                                         <select class="form-control" name="score"
                                                                                 id="score">
                                                                             <option value="5">优秀</option>
@@ -163,7 +147,7 @@
                                                                             <option value="2">及格</option>
                                                                             <option value="1">不及格</option>
                                                                         </select>
-                                                                    @elseif ($defense->pivot->role == 0 && $defense->pivot->score == 2)
+                                                                    @elseif ($defense->pivot->role == 2 && $defense->pivot->score == 2)
                                                                         <select class="form-control" name="score"
                                                                                 id="score">
                                                                             <option value="5">优秀</option>
@@ -195,66 +179,6 @@
                                                                     <textarea class="form-control" name="advice"
                                                                               id="advice"
                                                                               rows="6">{{ $defense->pivot->advice }}</textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <label for="defense_score"
-                                                                       class="col-sm-3 control-label">
-                                                                    答辩成绩
-                                                                </label>
-                                                                <div class="col-sm-6">
-                                                                    @if ($defense->score == 5)
-                                                                        <select class="form-control"
-                                                                                name="defense_score" id="defense_score">
-                                                                            <option selected="selected" value="5">优秀
-                                                                            </option>
-                                                                            <option value="4">良好</option>
-                                                                            <option value="3">中等</option>
-                                                                            <option value="2">及格</option>
-                                                                            <option value="1">不及格</option>
-                                                                        </select>
-                                                                    @elseif ($defense->score == 4)
-                                                                        <select class="form-control"
-                                                                                name="defense_score" id="defense_score">
-                                                                            <option value="5">优秀</option>
-                                                                            <option selected="selected" value="4">良好
-                                                                            </option>
-                                                                            <option value="3">中等</option>
-                                                                            <option value="2">及格</option>
-                                                                            <option value="1">不及格</option>
-                                                                        </select>
-                                                                    @elseif ($defense->score == 3)
-                                                                        <select class="form-control"
-                                                                                name="defense_score" id="defense_score">
-                                                                            <option value="5">优秀</option>
-                                                                            <option value="4">良好</option>
-                                                                            <option selected="selected" value="3">中等
-                                                                            </option>
-                                                                            <option value="2">及格</option>
-                                                                            <option value="1">不及格</option>
-                                                                        </select>
-                                                                    @elseif ($defense->score == 2)
-                                                                        <select class="form-control"
-                                                                                name="defense_score" id="defense_score">
-                                                                            <option value="5">优秀</option>
-                                                                            <option value="4">良好</option>
-                                                                            <option value="3">中等</option>
-                                                                            <option selected="selected" value="2">及格
-                                                                            </option>
-                                                                            <option value="1">不及格</option>
-                                                                        </select>
-                                                                    @else
-                                                                        <select class="form-control"
-                                                                                name="defense_score" id="defense_score">
-                                                                            <option value="5">优秀</option>
-                                                                            <option value="4">良好</option>
-                                                                            <option value="3">中等</option>
-                                                                            <option value="2">及格</option>
-                                                                            <option selected="selected" value="1">不及格
-                                                                            </option>
-                                                                        </select>
-                                                                    @endif
                                                                 </div>
                                                             </div>
 

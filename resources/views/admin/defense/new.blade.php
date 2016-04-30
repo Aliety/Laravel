@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <h1 class="text-center">新增审核</h1>
+            <h1 class="text-center">新增组长</h1>
         </div>
         <div class="row page-title-row">
             <div class="col-md-6">
@@ -38,7 +38,7 @@
                                         <button type="button" class="btn btn-md btn-primary"
                                                 data-toggle="modal" data-target="#modal{{ $teacher->id }}">
                                             <i class="fa fa-check fa-lg"></i>
-                                            设为审核
+                                            设为组长
                                         </button>
                                         <div class="modal fade" id="modal{{ $teacher->id }}">
                                             <div class="modal-dialog" style="width:800px;">
@@ -48,26 +48,26 @@
                                                             x
                                                         </button>
                                                         <h4 class="modal-title">
-                                                            添加审核
+                                                            添加组长
                                                         </h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="text-center">
                                                                 <p>
-                                                                     确定添加 {{ $teacher->name }} 为审核员?
+                                                                    确定添加 {{ $teacher->name }} 为组长?
                                                                 </p>
                                                             </div>
                                                         </div>
                                                         <hr/>
                                                         <form method="POST"
-                                                              action='{{ url("/admin/defense/check/$teacher->id") }}'
+                                                              action='{{ url("/admin/defense/group/$teacher->id") }}'
                                                               class="form-horizontal">
                                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                                             <div class="form-group">
                                                                 <label for="num" class="col-sm-3 control-label">
-                                                                    审核数量
+                                                                    答辩数量
                                                                 </label>
                                                                 <div class="col-md-8">
                                                                     <input type="text" class="form-control" name="num" id="num" placeholder="请输入数字">

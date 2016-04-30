@@ -67,6 +67,14 @@ class TopicController extends Controller
     {
         $topic = Topic::find($id);
         $users = $topic->users()->get();
+        foreach ($users as $user) {
+            foreach ($user->topics as $topic)
+            if ($topic->pivot->active) {
+                $user->topic_state = true;
+            } else {
+                $user->topic_state = false;
+            }
+        }
         $count = $topic->users()->where('active', 1)->count();
 
         return view('topic.state', compact('topic', 'users', 'count'));
@@ -74,20 +82,17 @@ class TopicController extends Controller
 
     public function active($topic_id, $user_id)
     {
-        $user = User::find($user_id);
+        $topic = Topic::find($topic_id);
+        $teacher = $topic->teacher;
+        $topic->users()->where('user_id', $user_id)->update([
+            'active' => 1
+        ]);
+        $defense = new Defense();
+        $status = $topic->defense()->save($defense);
 
-        foreach ($user->topics as $topic) {
-            if ($topic->pivot->topic_id == $topic_id) {
-                $teacher = $topic->teacher;
-                $user->topics()->attach($topic_id, ['active' => 1]);
-                $defense = new Defense();
-                $status = $topic->defense()->save($defense);
-                if ($status) {
-                    $status->teachers()->save($teacher, ['role' => 0]);
-                }
-            }
+        if ($status) {
+            $status->teachers()->save($teacher, ['role' => 0]);
         }
-
 
         return back()->withSuccess('success');
     }
@@ -123,5 +128,20 @@ class TopicController extends Controller
         }
 
         return redirect()->back()->withSuccess('Success');
+    }
+
+    public function userScore()
+    {
+        $user = Auth::user();
+        $topics = $user->topics;
+        foreach ($topics as $key => $topic) {
+            if ($topic->pivot->active) {
+                $topic['teacher_name'] = $topic->teacher->name;
+            } else {
+                unset($topics[$key]);
+            }
+        }
+
+        return view('auth.score')->with('topics', $topics);
     }
 }

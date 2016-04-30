@@ -134,7 +134,26 @@ class UserController extends Controller
                 $result->total = '好';
         }
 
-
         return view('auth.check', compact('result'));
+    }
+
+    public function showDefense()
+    {
+        $user = Auth::user();
+        $topics = $user->topics;
+
+        foreach ($topics as $key => $topic) {
+            if ($topic->pivot->active == true) {
+                $defense = $topic->defense;
+                $topic->defense_time = $defense->time;
+                $topic->defense_place = $defense->place;
+                $topic->defense_status = $topic->status;
+                $topic->defense_score = $topic->score;
+            } else {
+                unset($topics[$key]);
+            }
+        }
+
+        return view('auth.defense.show', compact('topics'));
     }
 }
